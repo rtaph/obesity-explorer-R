@@ -18,7 +18,8 @@ source(here::here("R", "text.R"))
 datapath <- here::here("data", "processed", "obesity-combo.csv")
 ob <- readr::read_csv(datapath) %>%
   filter(region != "Aggregates")
-
+cypath <- here::here("data", "processed", "country-ids.csv")
+cydict <- readr::read_csv(cypath)
 
 # Load CSS Styles
 css <- custom_css()
@@ -146,8 +147,8 @@ app$layout(
                 dccGraph(id = "scatter_plot")
               ),
               dbcRow(
-                # TIME SERIES PLOT
-                dccGraph(id = "chloropleth_plot")
+                # GEO PLOT
+                dccGraph(id = "choropleth_plot")
               ),
               dbcRow(
                 # SCATTER PLOT
@@ -170,6 +171,17 @@ app$callback(
     input("input_sex", "value")
   ),
   make_bar_plot
+)
+
+app$callback(
+  output("choropleth_plot", "figure"),
+  list(
+    input("input_region", "value"),
+    input("input_year", "value"),
+    input("input_income", "value"),
+    input("input_sex", "value")
+  ),
+  partial(make_choropleth_plot, cydict = cydict)
 )
 
 

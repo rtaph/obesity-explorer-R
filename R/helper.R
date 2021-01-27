@@ -44,6 +44,7 @@ rate <- function(x, y) {
 #' )
 #' make_rate_data(grp, query, vals)
 make_rate_data <- function(grp, fltr, vals = "obese", data = ob) {
+  fltr <- purrr::discard(fltr, is.null)
   data %>%
     group_by(!!!syms(grp)) %>%
     filter(across(all_of(names(fltr)), ~ . %in% fltr[[cur_column()]])) %>%

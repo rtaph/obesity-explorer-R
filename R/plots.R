@@ -32,13 +32,31 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
   ggplotly(p)
 }
 
-#' Create a Chloropleth Map of Obesity Rates
+#' Create a Choropleth Map of Obesity Rates
 #'
+#' @param .region The region input callback (character vector)
+#' @param .year The year input callback (integer vector)
+#' @param .income The income group callback (character vector)
+#' @param .sex The sex group callback (scalar character)
+#' @param cydict A two-column dataframe containing country names and their
+#'   3-letter ISO codes.
 #'
 #' @return A plotly object.
 #' @export
-make_chloropleth_plot <- function() {
-  NULL
+make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
+                                 .sex = NULL, cydict = cydict) {
+  # Generate a filtering string
+  fltr <- list(region = .region, year = .year, income = .income,
+               sex = remap_sex(.sex))
+  
+  # Subset and aggregate data
+  df <- make_rate_data("country", fltr) %>%
+    left_join(select(cydict, country = world_bank, iso3c), 
+              by = "country")
+  
+  # Plot
+  plot_ly(df, type='choropleth', locations=~iso3c, z=~obese_rate,
+          text = ~country)
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables
