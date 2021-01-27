@@ -65,9 +65,10 @@ make_rate_data <- function(grp, fltr, vals = "obese", data = ob) {
 #' @examples
 #' remap_sex("Male")
 #' remap_sex("Both")
-remap_sex <- function(x) {
+#' remap_sex()
+remap_sex <- function(x = NULL) {
   stopifnot(length(x) == 1 & x %in% c("Male", "Female", "Both"))
-  if (x == "Both") {
+  if (length(x) == 0 || x == "Both") {
     return(c("Female", "Male"))
   } else {
     return(x)
