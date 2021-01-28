@@ -19,7 +19,6 @@ rate <- function(x, y) {
   sum(x[i]) / sum(y[i])
 }
 
-
 #' Generate a Rate Data for Plotting
 #'
 #' @param grp A character string of categorical grouping variable names.
@@ -46,8 +45,8 @@ rate <- function(x, y) {
 make_rate_data <- function(grp, fltr, vals = "obese", data = ob) {
   fltr <- purrr::discard(fltr, is.null)
   data %>%
-    group_by(!!!syms(grp)) %>%
     filter(across(all_of(names(fltr)), ~ . %in% fltr[[cur_column()]])) %>%
+    group_by(!!!syms(grp)) %>%
     summarise(across(all_of(vals), list(rate = ~ rate(., pop))),
       .groups = "drop"
     )
