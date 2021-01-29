@@ -130,8 +130,8 @@ app$layout(
                 min = 1975,
                 max = 2016,
                 step = 1,
-                value = c(1975, 2016)
-                # marks = year_range
+                value = c(1975, 2016),
+                marks = as.list(set_names((a[seq(1, length(a), 5)])))
               ),
               htmlHr(),
               dccMarkdown(footer, style = css$sources)
@@ -151,17 +151,7 @@ app$layout(
                 dccTab(label = "Tab two", children = list(
                   htmlDiv(
                     list(
-                    dccGraph(#SAMPLE PLOT
-                        id='example-graph-1',
-                        figure=list(
-                          'data'= list(
-                            list('x'= c(1, 2, 3), 'y'= c(1, 4, 1),
-                                 'type'= 'bar', 'name'= 'SF'),
-                            list('x'= c(1, 2, 3), 'y'= c(1, 2, 3),
-                                 'type'= 'bar', 'name'= 'Montréal')
-                          )
-                        )
-                      )
+                      dccGraph(id = "ts_plot")
                     )
                   )
                 )
@@ -197,5 +187,15 @@ app$callback(
   partial(make_choropleth_plot, cydict = cydict)
 )
 
+app$callback(
+  output("ts_plot", "figure"),
+  list(
+  input("input_year", "value"),
+  input("input_sex", "value"),
+  input("input_highlight_country", "value"),
+  input("input_year_range", "value")
+  ),
+  make_ts_plot
+)
 
 app$run_server(debug = T)

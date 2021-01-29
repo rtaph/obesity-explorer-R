@@ -75,6 +75,28 @@ remap_sex <- function(x = NULL) {
   }
 }
 
+#' Create proper label for tooltips and plots
+#'
+#' @param x scalar string 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' create_label("obese_rate")
+#' create_label(c("obese_rate", "income"))
+create_label <- function(x) {
+  case_when(x == "obese_rate" ~ "Obesity Rate",
+            x == "smoke_rate" ~ "Smoking Rate",
+            x == "income" ~ "Income Level",
+            x == "primedu_rate" ~ "Primary Education Rate",
+            x == "region" ~ "Region",
+            x == "unemployed_rate" ~ "Unemployment Rate",
+            x == "country" ~ "Country",
+            is.null(x) ~ "",
+            TRUE ~ x)
+}
+
 
 #' List of Custom CSS Specs
 #'
