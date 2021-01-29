@@ -123,21 +123,11 @@ app$layout(
                 searchable = TRUE,
                 multi = TRUE
               ),
-              htmlBr(),
-              dbcLabel("Select Year Range:"),
-              dccRangeSlider(
-                id = "input_year_range",
-                min = 1975,
-                max = 2016,
-                step = 1,
-                value = c(1975, 2016),
-                marks = as.list(set_names((a[seq(1, length(a), 5)])))
-              ),
               htmlHr(),
               dccMarkdown(footer, style = css$sources)
             )
           ),
-          dbcCol(# PLOTTING PANEL
+          dbcCol( # PLOTTING PANEL
             list(
               dccTabs(id = "tabs", children = list(
                 dccTab(label = "Tab one", children = list(
@@ -151,18 +141,28 @@ app$layout(
                 dccTab(label = "Tab two", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "ts_plot")
+                      dccGraph(id = "ts_plot"),
+                      htmlBr(),
+                      dbcLabel("Select Year Range:"),
+                      dccRangeSlider(
+                        id = "input_year_range",
+                        min = 1975,
+                        max = 2016,
+                        step = 1,
+                        value = c(1975, 2016),
+                        marks = as.list(set_names((a[seq(1, length(a), 5)])))
+                      )
                     )
                   )
-                )
-                )
-              ))),
-            )
+                ))
+              ))
+            ),
           )
         )
       )
     )
   )
+)
 
 
 app$callback(
@@ -190,10 +190,10 @@ app$callback(
 app$callback(
   output("ts_plot", "figure"),
   list(
-  input("input_year", "value"),
-  input("input_sex", "value"),
-  input("input_highlight_country", "value"),
-  input("input_year_range", "value")
+    input("input_year", "value"),
+    input("input_sex", "value"),
+    input("input_highlight_country", "value"),
+    input("input_year_range", "value")
   ),
   make_ts_plot
 )

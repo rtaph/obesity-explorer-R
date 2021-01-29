@@ -107,7 +107,9 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = 'Canada
       aes(x = year,
           y = obese_rate,
           group = country) +
-    geom_line(aes(text = paste("Country:", country)), color = 'grey80', alpha = 0.5) + # Add lines
+    geom_line(aes(text = paste0("Country: ", country, 
+                                "\nObesity Rate: ", scales::percent(obese_rate, accuracy = 1.1),
+                                "\nYear: ", year)), color = 'grey80', alpha = 0.5) + # Add lines
     geom_point(data = highlight %>% filter(year == max(all_years)), # Add end points
                aes(x = as.integer(year),
                    y = obese_rate),
@@ -119,7 +121,9 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = 'Canada
               aes(x = year,
                   y = obese_rate,
                   color = country,
-                  text = paste("Country:", country))) +
+                  text = paste0("Country: ", country, 
+                                "\nObesity Rate: ", scales::percent(obese_rate, accuracy = 1.1),
+                                "\nYear: ", year))) +
     geom_vline(xintercept=.year, linetype="dotted") + # Add vertical line
     scale_x_continuous(limits = c(min(all_years), max(all_years)), 
                        expand = c(0, 0),
@@ -132,5 +136,5 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = 'Canada
          subtitle=sub) +
     theme_bw()
   
-  ggplotly(ts_plot, tooltip = c("text", "obese_rate"))
+  ggplotly(ts_plot, tooltip = c("text"))
 }
