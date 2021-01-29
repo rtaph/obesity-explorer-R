@@ -20,6 +20,7 @@ ob <- readr::read_csv(datapath) %>%
   filter(region != "Aggregates")
 cypath <- here::here("data", "processed", "country-ids.csv")
 cydict <- readr::read_csv(cypath)
+a <- as.character(c(1975:2016))
 
 # Load CSS Styles
 css <- custom_css()
@@ -60,8 +61,8 @@ app$layout(
                 max = 2016,
                 step = 1,
                 value = 2016,
-                included = FALSE
-                # marks = year_range
+                included = FALSE,
+                marks = as.list(set_names((a[seq(1, length(a), 5)])))
               ),
               htmlBr(),
               dbcLabel("Filter Region:"),
@@ -136,31 +137,43 @@ app$layout(
               dccMarkdown(footer, style = css$sources)
             )
           ),
-          dbcCol( # PLOTTING PANEL
+          dbcCol(# PLOTTING PANEL
             list(
-              dbcRow(
-                # TIME SERIES PLOT
-                dccGraph(id = "ts_plot")
-              ),
-              dbcRow(
-                # SCATTER PLOT
-                dccGraph(id = "scatter_plot")
-              ),
-              dbcRow(
-                # GEO PLOT
-                dccGraph(id = "choropleth_plot")
-              ),
-              dbcRow(
-                # SCATTER PLOT
-                dccGraph(id = "bar_plot")
-              )
+              dccTabs(id = "tabs", children = list(
+                dccTab(label = "Tab one", children = list(
+                  htmlDiv(
+                    list(
+                      dccGraph(id = "choropleth_plot"),
+                      dccGraph(id = "bar_plot")
+                    )
+                  )
+                )),
+                dccTab(label = "Tab two", children = list(
+                  htmlDiv(
+                    list(
+                    dccGraph(#SAMPLE PLOT
+                        id='example-graph-1',
+                        figure=list(
+                          'data'= list(
+                            list('x'= c(1, 2, 3), 'y'= c(1, 4, 1),
+                                 'type'= 'bar', 'name'= 'SF'),
+                            list('x'= c(1, 2, 3), 'y'= c(1, 2, 3),
+                                 'type'= 'bar', 'name'= 'Montréal')
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+                )
+              ))),
             )
           )
         )
       )
     )
   )
-)
+
 
 app$callback(
   output("bar_plot", "figure"),
@@ -185,4 +198,4 @@ app$callback(
 )
 
 
-app$run_server(host = '0.0.0.0')
+app$run_server(debug = T)

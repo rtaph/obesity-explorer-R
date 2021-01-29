@@ -28,7 +28,12 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
     geom_col() +
     scale_fill_viridis_c() +
     labs(title = "Top 10 Countries",
-         subtitle = .year)
+         subtitle = .year, 
+         x = "Obesity Rate(%)", 
+         fill = "Obesity") +
+    theme(axis.title.y = element_blank()) +
+    theme_classic() +
+    scale_x_continuous(labels = scales::percent_format(accuracy = 1))
   ggplotly(p)
 }
 
