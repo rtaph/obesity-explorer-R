@@ -151,7 +151,9 @@ app$layout(
                         step = 1,
                         value = c(1975, 2016),
                         marks = as.list(set_names((a[seq(1, length(a), 5)])))
-                      )
+                      ),
+                      dccGraph(id = "scatter_plot")
+
                     )
                   )
                 ))
@@ -197,5 +199,19 @@ app$callback(
   ),
   make_ts_plot
 )
+
+app$callback(
+  output("scatter_plot", "figure"),
+  list(
+    input("input_region", "value"),
+    input("input_year", "value"),
+    input("input_income", "value"),
+    input("input_sex", "value"),
+    input("input_regressor", "value"),
+    input("input_grouper", "value")
+  ),
+  make_scatter_plot
+)
+
 
 app$run_server(debug = T)

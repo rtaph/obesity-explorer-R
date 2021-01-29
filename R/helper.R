@@ -77,7 +77,7 @@ remap_sex <- function(x = NULL) {
 
 #' Create proper label for tooltips and plots
 #'
-#' @param x scalar string 
+#' @param x scalar string
 #'
 #' @return
 #' @export
@@ -86,15 +86,17 @@ remap_sex <- function(x = NULL) {
 #' create_label("obese_rate")
 #' create_label(c("obese_rate", "income"))
 create_label <- function(x) {
-  case_when(x == "obese_rate" ~ "Obesity Rate",
-            x == "smoke_rate" ~ "Smoking Rate",
-            x == "income" ~ "Income Level",
-            x == "primedu_rate" ~ "Primary Education Rate",
-            x == "region" ~ "Region",
-            x == "unemployed_rate" ~ "Unemployment Rate",
-            x == "country" ~ "Country",
-            is.null(x) ~ "",
-            TRUE ~ x)
+  case_when(
+    x == "obese_rate" ~ "Obesity Rate",
+    x == "smoke_rate" ~ "Smoking Rate",
+    x == "income" ~ "Income Level",
+    x == "primedu_rate" ~ "Primary Education Rate",
+    x == "region" ~ "Region",
+    x == "unemployed_rate" ~ "Unemployment Rate",
+    x == "country" ~ "Country",
+    is.null(x) ~ "",
+    TRUE ~ x
+  )
 }
 
 
@@ -104,20 +106,20 @@ create_label <- function(x) {
 #' @export
 custom_css <- function() {
   css <- list()
-  
+
   # Input parameter box
   css$box <- list(
     "border" = "1px solid #d3d3d3",
     "border-radius" = "10px",
     "background-color" = "rgba(220, 220, 220, 0.5)"
   )
-  
+
   # Drop-down choices
   css$dd <- list("font-size" = "smaller")
-  
+
   # Footnote text
   css$sources <- list("font-size" = "xx-small")
-  
+
   # Return CSS
   css
 }
