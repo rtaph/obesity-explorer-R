@@ -84,49 +84,11 @@ app$layout(
                 clearable = FALSE,
                 multi = TRUE
               ),
-              htmlBr(),
-              dbcLabel("Select Secondary Variable: "),
-              dccDropdown(
-                id = "input_regressor",
-                options = list(
-                  list(label = "Smoking Rate", value = "smoke"),
-                  list(label = "Primary Education Completion Rate", value = "primedu"),
-                  list(label = "Unemployment Rate", value = "unemployed")
-                ),
-                value = "primedu",
-                clearable = FALSE,
-                style = css$dd,
-                multi = FALSE
-              ),
-              htmlBr(),
-              dbcLabel("Select Grouping Variable: "),
-              dccDropdown(
-                id = "input_grouper",
-                options = list(
-                  list(label = "Income group", value = "income"),
-                  list(label = "Sex", value = "sex"),
-                  list(label = "Region", value = "region"),
-                  list(label = "No grouping", value = "none")
-                ),
-                value = "none",
-                style = css$dd,
-                clearable = FALSE,
-                multi = FALSE
-              ),
-              htmlBr(),
-              dbcLabel("Highlight Countries:"),
-              dccDropdown(
-                id = "input_highlight_country",
-                options = map(unique(ob$country), ~ list(label = ., value = .)),
-                value = "Canada",
-                clearable = TRUE,
-                searchable = TRUE,
-                multi = TRUE
-              ),
               htmlHr(),
               dccMarkdown(footer, style = css$sources)
             )
           ),
+          htmlBr(),
           dbcCol( # PLOTTING PANEL
             list(
               dccTabs(id = "tabs", children = list(
@@ -138,7 +100,7 @@ app$layout(
                     )
                   )
                 )),
-                dccTab(label = "Trends and Associations", children = list(
+                dccTab(label = "Trends", children = list(
                   htmlDiv(
                     list(
                       dccGraph(id = "ts_plot"),
@@ -152,7 +114,53 @@ app$layout(
                         value = c(1975, 2016),
                         marks = as.list(set_names((a[seq(1, length(a), 5)])))
                       ),
-                      dccGraph(id = "scatter_plot")
+                      htmlBr(),
+                      dbcLabel("Highlight Countries:"),
+                      dccDropdown(
+                        id = "input_highlight_country",
+                        options = map(unique(ob$country), ~ list(label = ., value = .)),
+                        value = "Canada",
+                        clearable = TRUE,
+                        searchable = TRUE,
+                        multi = TRUE
+                      )
+                    )
+                  )
+                )),
+                dccTab(label = "Associations", children = list(
+                  htmlDiv(
+                    list(
+                      dccGraph(id = "scatter_plot"),
+                      htmlBr(),
+                      dbcLabel("Select Coloring Variable: "),
+                      dccDropdown(
+                        id = "input_grouper",
+                        options = list(
+                          list(label = "Income group", value = "income"),
+                          list(label = "Sex", value = "sex"),
+                          list(label = "Region", value = "region"),
+                          list(label = "No grouping", value = "none")
+                        ),
+                        value = "none",
+                        style = css$dd,
+                        clearable = FALSE,
+                        multi = FALSE
+                      ),
+                      htmlBr(),
+                      dbcLabel("Select X-Axis Variable: "),
+                      dccDropdown(
+                        id = "input_regressor",
+                        options = list(
+                          list(label = "Smoking Rate", value = "smoke"),
+                          list(label = "Primary Education Completion Rate", value = "primedu"),
+                          list(label = "Unemployment Rate", value = "unemployed")
+                        ),
+                        value = "unemployed",
+                        clearable = FALSE,
+                        style = css$dd,
+                        multi = FALSE
+                      ),
+                      htmlBr()
                     )
                   )
                 ))
@@ -160,7 +168,8 @@ app$layout(
             ),
           )
         )
-      )
+      ),
+      htmlBr()
     )
   )
 )

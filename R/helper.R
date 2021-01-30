@@ -89,11 +89,14 @@ create_label <- function(x) {
   case_when(
     x == "obese_rate" ~ "Obesity Rate",
     x == "smoke_rate" ~ "Smoking Rate",
+    x == "smoke" ~ "Smoking Rate",
     x == "income" ~ "Income Level",
-    x == "primedu_rate" ~ "Primary Education Rate",
+    x == "primedu" ~ "Primary Education Rate",
     x == "region" ~ "Region",
-    x == "unemployed_rate" ~ "Unemployment Rate",
+    x == "unemployed" ~ "Unemployment Rate",
     x == "country" ~ "Country",
+    x == "none" ~ "",
+    x == "sex" ~ "Sex",
     is.null(x) ~ "",
     TRUE ~ x
   )

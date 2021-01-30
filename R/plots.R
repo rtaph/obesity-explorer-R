@@ -34,7 +34,7 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
       )
     )) +
     geom_col() +
-    scale_fill_viridis_c(limits = c(min(df$obese_rate, na.rm=TRUE), max(df$obese_rate)), oob = scales::squish, labels = scales::percent_format(1)) +
+    scale_fill_viridis_c(limits = c(min(df$obese_rate, na.rm = TRUE), max(df$obese_rate)), oob = scales::squish, labels = scales::percent_format(1)) +
     labs(
       title = str_glue("Top 10 Countries ({.year})"),
       x = "Obesity Rate(%)",
@@ -70,18 +70,24 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
   df <- make_rate_data("country", fltr) %>%
     left_join(select(cydict, country = world_bank, iso3c),
       by = "country"
-    ) %>% 
+    ) %>%
     mutate(text_tooltip = paste(
       "Country:", country,
       "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
       "\nYear: ", .year
-    ))
+    ), across(obese_rate, ~ . * 100))
 
   # Plot
   plot_ly(df,
     type = "choropleth", locations = ~iso3c, z = ~obese_rate,
     text = ~text_tooltip, hoverinfo = "text"
-  )
+  ) %>%
+    colorbar(
+      limits = c(min(df$obese_rate, na.rm = TRUE), max(df$obese_rate)),
+      value = "percent",
+      title = "<b> Obesity Rate </b>",
+      ticksuffix = "%"
+    )
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables
@@ -93,32 +99,39 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @param .grouper The attribute to be used for grouping the data in the scatter plot (character vector)
 #' @return A plotly object.
 #' @export
-make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex = NULL, .regressor = "smoke", .grouper = "none") {
+make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex = NULL, .regressor = "smoke", .grouper = "sex") {
   # Generate a filtering string
   fltr <- list(
     region = .region, year = .year, income = .income,
     sex = remap_sex(.sex)
   )
-
   # Subset and aggregate data
-  df <- make_rate_data(c(.grouper, "country"), fltr, vals = c(.regressor, "obese"))
+  chosen_rate <- as.character(str_glue("{.regressor}_rate"))
+  df <- make_rate_data(c(.grouper, "country"), fltr, vals = c(.regressor, "obese")) %>%
+    mutate(rate = !!sym(chosen_rate))
 
   # Plot
   p <- df %>% ggplot(
     aes(
-      x = !!sym(str_glue("{.regressor}_rate")),
+      x = rate,
       y = obese_rate,
       color = !!sym(.grouper)
     )
   ) +
-    geom_point() +
+    geom_point(aes(text = str_glue("Country: {country}
+                                    Obesity Rate: {scales::percent(obese_rate, 0.1)}
+                                    {create_label(.regressor)}: {scales::percent(rate, 0.1)}"))) +
     geom_smooth(se = FALSE, method = "lm") +
     labs(
-      title = str_glue("Obesity Rate vs {.regressor}"),
-      x = str_glue("{.regressor}"),
-      y = "Obesity Rate"
-    )
-  ggplotly(p)
+      title = str_glue("Obesity Rate vs {create_label(.regressor)}"),
+      x = str_glue("{create_label(.regressor)}"),
+      y = "Obesity Rate",
+      color = create_label(.grouper)
+    ) +
+    scale_x_continuous(labels = scales::percent_format(1)) +
+    scale_y_continuous(labels = scales::percent_format(1)) +
+    ggthemes::scale_color_tableau()
+  ggplotly(p, tooltip = "text")
 }
 
 #' Create a Time Series of Obesity Rates
