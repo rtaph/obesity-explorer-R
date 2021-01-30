@@ -27,20 +27,24 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
       x = obese_rate,
       y = country,
       fill = obese_rate,
-      text = country
+      text = paste(
+        "Country:", country,
+        "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+        "\nYear: ", .year
+      )
     )) +
     geom_col() +
-    scale_fill_viridis_c() +
+    scale_fill_viridis_c(limits = c(min(df$obese_rate, na.rm=TRUE), max(df$obese_rate)), oob = scales::squish, labels = scales::percent_format(1)) +
     labs(
-      title = "Top 10 Countries",
-      subtitle = .year,
+      title = str_glue("Top 10 Countries ({.year})"),
       x = "Obesity Rate(%)",
+      y = NULL,
       fill = "Obesity"
     ) +
     theme(axis.title.y = element_blank()) +
     theme_classic() +
     scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p)
+  ggplotly(p, tooltip = c("text"))
 }
 
 #' Create a Choropleth Map of Obesity Rates
@@ -66,12 +70,17 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
   df <- make_rate_data("country", fltr) %>%
     left_join(select(cydict, country = world_bank, iso3c),
       by = "country"
-    )
+    ) %>% 
+    mutate(text_tooltip = paste(
+      "Country:", country,
+      "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+      "\nYear: ", .year
+    ))
 
   # Plot
   plot_ly(df,
     type = "choropleth", locations = ~iso3c, z = ~obese_rate,
-    text = ~country
+    text = ~text_tooltip, hoverinfo = "text"
   )
 }
 
@@ -147,12 +156,24 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada
       y = obese_rate,
       group = country
     ) +
-    geom_line(aes(text = paste("Country:", country)), color = "grey80", alpha = 0.5) + # Add lines
+    geom_line(aes(text = paste(
+      "Country:", country,
+      "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+      "\nYear: ", year
+    )),
+    color = "grey80",
+    alpha = 0.5
+    ) + # Add lines
     geom_point(
       data = highlight %>% filter(year == max(all_years)), # Add end points
       aes(
         x = as.integer(year),
-        y = obese_rate
+        y = obese_rate,
+        text = paste(
+          "Country:", country,
+          "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+          "\nYear: ", year
+        )
       ),
       size = 1,
       color = "black",
@@ -165,7 +186,11 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada
         x = year,
         y = obese_rate,
         color = country,
-        text = paste("Country:", country)
+        text = paste(
+          "Country:", country,
+          "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+          "\nYear: ", year
+        )
       )
     ) +
     geom_vline(xintercept = .year, linetype = "dotted") + # Add vertical line
@@ -184,5 +209,5 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada
     ) +
     theme_bw()
 
-  ggplotly(ts_plot, tooltip = c("text", "obese_rate"))
+  ggplotly(ts_plot, tooltip = c("text"))
 }

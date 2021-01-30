@@ -130,7 +130,7 @@ app$layout(
           dbcCol( # PLOTTING PANEL
             list(
               dccTabs(id = "tabs", children = list(
-                dccTab(label = "Tab one", children = list(
+                dccTab(label = "Country Standings", children = list(
                   htmlDiv(
                     list(
                       dccGraph(id = "choropleth_plot"),
@@ -138,7 +138,7 @@ app$layout(
                     )
                   )
                 )),
-                dccTab(label = "Tab two", children = list(
+                dccTab(label = "Trends and Associations", children = list(
                   htmlDiv(
                     list(
                       dccGraph(id = "ts_plot"),
@@ -153,7 +153,6 @@ app$layout(
                         marks = as.list(set_names((a[seq(1, length(a), 5)])))
                       ),
                       dccGraph(id = "scatter_plot")
-
                     )
                   )
                 ))
@@ -213,5 +212,8 @@ app$callback(
   make_scatter_plot
 )
 
-
-app$run_server(debug = T)
+if (Sys.getenv("DYNO") == "") {
+  app$run_server(debug = TRUE)
+} else {
+  app$run_server(host = "0.0.0.0")
+}
