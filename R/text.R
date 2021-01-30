@@ -18,7 +18,7 @@ This dashboard is created by
 [tanmaysharma19](https://github.com/tanmaysharma19),
 [jraza19](https://github.com/jraza19), and 
 [rtaph](https://github.com/rtaph). 
-View the source code and contribute [here](https://github.com/UBC-MDS/obesity-explorer).
+View the source code and contribute [here](https://github.com/UBC-MDS/obesity-explorer-R).
 "
 
 header <- "
