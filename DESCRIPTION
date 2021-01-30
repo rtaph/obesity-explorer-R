@@ -1,0 +1,49 @@
+Package: obesityexplorer
+Title: Obesity Explorer Dashboard
+Version: 0.1.1.9000
+Authors@R: 
+    c(person(given = "Javairia",
+             family = "Raza",
+             role = c("aut")),
+      person(given = "Dustin",
+             family = "Burnham",
+             role = c("aut")),
+      person(given = "Rafael",
+             family = "Pilliard-Hellwig",
+             email = "rtaph@student.ubc.ca",
+             role = c("aut", "cre")),
+      person(given = "Tanmay",
+             family = "Sharma",
+             role = c("aut")))
+Description: An Obesity Dashboard Developed in R-Dash
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    dash,
+    readr,
+    dplyr,
+    rlang,
+    tidyr,
+    stringr,
+    ggthemes,
+    scales,
+    here,
+    plotly,
+    dashHtmlComponents,
+    dashCoreComponents,
+    dashBootstrapComponents (>= 0.11.1),
+    purrr,
+    forcats,
+    tibble,
+    tidyverse,
+    ggplot2
+Suggests:
+    lintr,
+    spelling,
+    testthat
+Language: en-US
+Remotes: 
+    facultyai/dash-bootstrap-components@r-release
