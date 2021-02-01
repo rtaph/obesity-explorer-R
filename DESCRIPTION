@@ -39,11 +39,14 @@ Imports:
     forcats,
     tibble,
     tidyverse,
-    ggplot2
+    ggplot2,
+    magrittr
 Suggests:
     lintr,
+    checkmate,
     spelling,
-    testthat
+    testthat (>= 3.0.0)
 Language: en-US
 Remotes: 
     facultyai/dash-bootstrap-components@r-release
+Config/testthat/edition: 3
