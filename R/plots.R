@@ -123,7 +123,7 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
                                     {create_label(.regressor)}: {scales::percent(rate, 0.1)}"))) +
     geom_smooth(se = FALSE, method = "lm") +
     labs(
-      title = str_glue("Obesity Rate vs {create_label(.regressor)}"),
+      title = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
       x = str_glue("{create_label(.regressor)}"),
       y = "Obesity Rate",
       color = create_label(.grouper)
