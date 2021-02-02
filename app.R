@@ -8,18 +8,10 @@ library(dashBootstrapComponents)
 library(plotly)
 library(tidyverse)
 
-# Load custom functions
-source(here::here("R", "helper.R"))
-source(here::here("R", "plots.R"))
-source(here::here("R", "text.R"))
+# Load custom functions and data
+devtools::load_all(".")
 
-
-# Read-in the data
-datapath <- here::here("data", "processed", "obesity-combo.csv")
-ob <- readr::read_csv(datapath) %>%
-  filter(region != "Aggregates")
-cypath <- here::here("data", "processed", "country-ids.csv")
-cydict <- readr::read_csv(cypath)
+# define year range
 a <- as.character(c(1975:2016))
 
 # Load CSS Styles

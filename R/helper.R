@@ -34,7 +34,6 @@ rate <- function(x, y) {
 #' @import dplyr rlang
 #'
 #' @examples
-#' ob <- readr::read_csv(here::here("data", "processed", "obesity-combo.csv"))
 #' grp <- c("sex", "country")
 #' vals <- c("obese", "unemployed")
 #' fltr <- list(
@@ -126,3 +125,50 @@ custom_css <- function() {
   # Return CSS
   css
 }
+
+#' The Obesity Data
+#'
+#' A dataset containing the obesity dataset for the years 1960-2019. The
+#' original dataset has been joined with World Bank indicator data. Data are
+#' partitioned into mutually exclusive strata (rows) so that they may be
+#' aggregated according to user needs.
+#'
+#' @format A data frame with 23,138 rows and 18 variables: \describe{
+#'   \item{country}{The country name.} \item{year}{The year of stratum.}
+#'   \item{sex}{The sex of individuals in the stratum.} \item{iso2c}{The ISO
+#'   2-letter country code.} \item{iso3c}{The ISO 3-letter country code.}
+#'   \item{region}{The geogrpahic region of the country.} \item{capital}{The
+#'   capital city of the country.} \item{longitude}{The longitude of the
+#'   capital city.} \item{latitude}{The latitude of the capital city.}
+#'   \item{income}{The name of the country income group.} \item{lending}{The
+#'   name of the IMF country lending category.} \item{lifexp}{The country life
+#'   expectancy for the stratum.} \item{pop}{The population count of the
+#'   stratum (row).} \item{primedu}{The number of individuals in the stratum
+#'   (row) who have completed basic primary education} \item{smoke}{The number
+#'   of individuals in the stratum (row) who smoke.} \item{unemployed}{The
+#'   number of individuals in the stratum (row) who are unemployed.}
+#'   \item{obese}{The number of individuals in the stratum (row) who are
+#'   obese.} \item{none}{A placeholder column with level "All" for dashboarding
+#'   purposes only.} }
+#' @source
+#' \describe{
+#'   \item{WHO Obesity Data}{\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}}
+#'   \item{World Bank Indicators}{\url{https://data.worldbank.org/indicator}}
+#'   }
+#'
+"ob"
+
+#' Dictionary of Country Names
+#'
+#' A mapping of country IDs and names across datasets.
+#'
+#' @format A data frame with 262 rows and 5 variables:
+#' \describe{
+#'   \item{id}{The country ID in Altair's geojson template.}
+#'   \item{altair}{The country name in Altair (Python).}
+#'   \item{obesity}{The country name in the obesity dataset.}
+#'   \item{world_bank}{The country name in World Bank dataset.}
+#'   \item{iso3c}{The ISO 3-letter country code.}
+#' }
+#' @source \url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}
+"cydict"
