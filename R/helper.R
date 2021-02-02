@@ -27,11 +27,11 @@ rate <- function(x, y) {
 #'   membership is to be evaluated (see examples).
 #' @param vals A character string of continuous variables for which a rate will be
 #'   calculated relative to population. Defaults to "obese."
-#' @param data The obesity dataframe.
 #'
 #' @return A dataframe with rates calculated for each value in vals.
 #' @export
 #' @import dplyr rlang
+#' @importFrom rlang .data
 #'
 #' @examples
 #' grp <- c("sex", "country")
@@ -41,12 +41,12 @@ rate <- function(x, y) {
 #'   year = c(2014, 2015, 2016)
 #' )
 #' make_rate_data(grp, fltr, vals)
-make_rate_data <- function(grp, fltr, vals = "obese", data = ob) {
+make_rate_data <- function(grp, fltr, vals = "obese") {
   fltr <- purrr::discard(fltr, is.null)
-  data %>%
+  obesityexplorer::ob %>%
     filter(across(all_of(names(fltr)), ~ . %in% fltr[[cur_column()]])) %>%
     group_by(!!!syms(grp)) %>%
-    summarise(across(all_of(vals), list(rate = ~ rate(., pop))),
+    summarise(across(all_of(vals), list(rate = ~ rate(., .data$pop))),
       .groups = "drop"
     )
 }
@@ -170,5 +170,4 @@ custom_css <- function() {
 #'   \item{world_bank}{The country name in World Bank dataset.}
 #'   \item{iso3c}{The ISO 3-letter country code.}
 #' }
-#' @source \url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}
 "cydict"

@@ -14,9 +14,6 @@ A data frame with 262 rows and 5 variables:
 \item{iso3c}{The ISO 3-letter country code.}
 }
 }
-\source{
-\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}
-}
 \usage{
 cydict
 }
