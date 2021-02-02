@@ -6,6 +6,9 @@
 #' @param .sex The sex group callback (scalar character)
 #' @param n a scalar representing the number of countries to chart.
 #'
+#' @import ggplot2
+#' @importFrom plotly ggplotly
+#' @importFrom utils head
 #' @return A plotly object.
 #' @export
 make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
@@ -56,6 +59,8 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
 #' @param cydict A two-column dataframe containing country names and their
 #'   3-letter ISO codes.
 #'
+#' @import ggplot2
+#' @importFrom plotly plot_ly colorbar
 #' @return A plotly object.
 #' @export
 make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
@@ -98,6 +103,10 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @param .regressor The regressor to be used in the scatter plot (character vector)
 #' @param .grouper The attribute to be used for grouping the data in the scatter plot (character vector)
 #' @return A plotly object.
+#' 
+#' @import ggplot2 
+#' @importFrom plotly ggplotly
+#' @importFrom stringr str_glue
 #' @export
 make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex = NULL, .regressor = "smoke", .grouper = "sex") {
   # Generate a filtering string
@@ -142,6 +151,9 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
 #' @param .highlight_country The countries we want to highlight (character vector)
 #'
 #' @return A plotly object.
+#' @import ggplot2 
+#' @importFrom plotly ggplotly
+#' @importFrom forcats fct_reorder
 #' @export
 make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada", .year_range = list(1975, 2016)) {
   all_years <- seq(.year_range[[1]], .year_range[[2]])
