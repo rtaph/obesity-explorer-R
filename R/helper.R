@@ -40,7 +40,7 @@ rate <- function(x, y) {
 #'   region = c("South Asia", "Europe & Central Asia"),
 #'   year = c(2014, 2015, 2016)
 #' )
-#' make_rate_data(grp, query, vals)
+#' make_rate_data(grp, fltr, vals)
 make_rate_data <- function(grp, fltr, vals = "obese", data = ob) {
   fltr <- purrr::discard(fltr, is.null)
   data %>%
@@ -78,7 +78,7 @@ remap_sex <- function(x = NULL) {
 #'
 #' @param x scalar string
 #'
-#' @return
+#' @return A character vector of re-maped labels.
 #' @export
 #'
 #' @examples
