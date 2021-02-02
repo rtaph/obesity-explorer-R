@@ -25,7 +25,6 @@ A dataframe with rates calculated for each value in vals.
 Generate a Rate Data for Plotting
 }
 \examples{
-ob <- readr::read_csv(here::here("data", "processed", "obesity-combo.csv"))
 grp <- c("sex", "country")
 vals <- c("obese", "unemployed")
 fltr <- list(
