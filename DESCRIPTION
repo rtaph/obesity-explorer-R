@@ -1,6 +1,6 @@
 Package: obesityexplorer
 Title: Obesity Explorer Dashboard
-Version: 0.1.1.9000
+Version: 0.3.0.9000
 Authors@R: 
     c(person(given = "Javairia",
              family = "Raza",
@@ -15,7 +15,7 @@ Authors@R:
       person(given = "Tanmay",
              family = "Sharma",
              role = c("aut")))
-Description: An Obesity Dashboard Developed in R-Dash
+Description: An Obesity Dashboard Developed in R-Dash.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -45,8 +45,11 @@ Suggests:
     lintr,
     checkmate,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    covr
 Language: en-US
 Remotes: 
     facultyai/dash-bootstrap-components@r-release
 Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)

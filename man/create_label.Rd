@@ -10,7 +10,7 @@ create_label(x)
 \item{x}{scalar string}
 }
 \value{
-
+A character vector of re-maped labels.
 }
 \description{
 Create proper label for tooltips and plots

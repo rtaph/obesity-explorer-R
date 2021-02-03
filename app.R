@@ -5,21 +5,12 @@ library(dash)
 library(dashHtmlComponents)
 library(dashCoreComponents)
 library(dashBootstrapComponents)
-library(plotly)
 library(tidyverse)
 
-# Load custom functions
-source(here::here("R", "helper.R"))
-source(here::here("R", "plots.R"))
-source(here::here("R", "text.R"))
+# Load custom functions and data
+devtools::load_all(".")
 
-
-# Read-in the data
-datapath <- here::here("data", "processed", "obesity-combo.csv")
-ob <- readr::read_csv(datapath) %>%
-  filter(region != "Aggregates")
-cypath <- here::here("data", "processed", "country-ids.csv")
-cydict <- readr::read_csv(cypath)
+# define year range
 a <- as.character(c(1975:2016))
 
 # Load CSS Styles
@@ -68,7 +59,8 @@ app$layout(
               dbcLabel("Filter Region:"),
               dccDropdown(
                 id = "input_region",
-                options = map(unique(ob$region), ~ list(label = ., value = .)),
+                options = map(unique(ob$region), 
+                              ~ list(label = ., value = .)),
                 value = unique(ob$region),
                 clearable = FALSE,
                 style = css$dd,
@@ -118,7 +110,8 @@ app$layout(
                       dbcLabel("Highlight Countries:"),
                       dccDropdown(
                         id = "input_highlight_country",
-                        options = map(unique(ob$country), ~ list(label = ., value = .)),
+                        options = map(unique(ob$country), 
+                                      ~ list(label = ., value = .)),
                         value = "Canada",
                         clearable = TRUE,
                         searchable = TRUE,
@@ -152,8 +145,10 @@ app$layout(
                         id = "input_regressor",
                         options = list(
                           list(label = "Smoking Rate", value = "smoke"),
-                          list(label = "Primary Education Completion Rate", value = "primedu"),
-                          list(label = "Unemployment Rate", value = "unemployed")
+                          list(label = "Primary Education Completion Rate", 
+                               value = "primedu"),
+                          list(label = "Unemployment Rate",
+                               value = "unemployed")
                         ),
                         value = "unemployed",
                         clearable = FALSE,

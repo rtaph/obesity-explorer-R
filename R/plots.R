@@ -6,6 +6,9 @@
 #' @param .sex The sex group callback (scalar character)
 #' @param n a scalar representing the number of countries to chart.
 #'
+#' @import ggplot2
+#' @importFrom plotly ggplotly
+#' @importFrom utils head
 #' @return A plotly object.
 #' @export
 make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
@@ -20,21 +23,23 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
 
   # Plot
   p <- df %>%
-    arrange(desc(obese_rate)) %>%
+    arrange(desc(.data$obese_rate)) %>%
     head(n) %>%
-    mutate(across(country, fct_reorder, .x = obese_rate)) %>%
+    mutate(across(.data$country, fct_reorder, .x = .data$obese_rate)) %>%
     ggplot(aes(
-      x = obese_rate,
-      y = country,
-      fill = obese_rate,
+      x = .data$obese_rate,
+      y = .data$country,
+      fill = .data$obese_rate,
       text = paste(
-        "Country:", country,
-        "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+        "Country:", .data$country,
+        "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
         "\nYear: ", .year
       )
     )) +
     geom_col() +
-    scale_fill_viridis_c(limits = c(min(df$obese_rate, na.rm = TRUE), max(df$obese_rate)), oob = scales::squish, labels = scales::percent_format(1)) +
+    scale_fill_viridis_c(limits = c(min(df$obese_rate, na.rm = TRUE), 
+                                    max(df$obese_rate)), oob = scales::squish,
+                         labels = scales::percent_format(1)) +
     labs(
       title = str_glue("Top 10 Countries ({.year})"),
       x = "Obesity Rate(%)",
@@ -56,6 +61,8 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
 #' @param cydict A two-column dataframe containing country names and their
 #'   3-letter ISO codes.
 #'
+#' @import ggplot2
+#' @importFrom plotly plot_ly colorbar
 #' @return A plotly object.
 #' @export
 make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
@@ -68,14 +75,14 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 
   # Subset and aggregate data
   df <- make_rate_data("country", fltr) %>%
-    left_join(select(cydict, country = world_bank, iso3c),
+    left_join(select(cydict, country = .data$world_bank, .data$iso3c),
       by = "country"
     ) %>%
     mutate(text_tooltip = paste(
-      "Country:", country,
-      "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
+      "Country:", .data$country,
+      "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
       "\nYear: ", .year
-    ), across(obese_rate, ~ . * 100))
+    ), across(.data$obese_rate, ~ . * 100))
 
   # Plot
   plot_ly(df,
@@ -98,6 +105,10 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @param .regressor The regressor to be used in the scatter plot (character vector)
 #' @param .grouper The attribute to be used for grouping the data in the scatter plot (character vector)
 #' @return A plotly object.
+#' 
+#' @import ggplot2 
+#' @importFrom plotly ggplotly
+#' @importFrom stringr str_glue
 #' @export
 make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex = NULL, .regressor = "smoke", .grouper = "sex") {
   # Generate a filtering string
@@ -113,8 +124,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
   # Plot
   p <- df %>% ggplot(
     aes(
-      x = rate,
-      y = obese_rate,
+      x = .data$rate,
+      y = .data$obese_rate,
       color = !!sym(.grouper)
     )
   ) +
@@ -142,6 +153,9 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
 #' @param .highlight_country The countries we want to highlight (character vector)
 #'
 #' @return A plotly object.
+#' @import ggplot2 
+#' @importFrom plotly ggplotly
+#' @importFrom forcats fct_reorder
 #' @export
 make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada", .year_range = list(1975, 2016)) {
   all_years <- seq(.year_range[[1]], .year_range[[2]])
@@ -153,39 +167,41 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada
 
   # Get data for highlighted country
   highlight <- df %>%
-    filter(country %in% .highlight_country) %>%
-    mutate(across(country, factor, levels = .highlight_country))
+    filter(.data$country %in% .highlight_country) %>%
+    mutate(across(.data$country, factor, levels = .highlight_country))
 
 
   # Create subtitle
-  sub <- paste0(as.character(min(all_years)), "-", as.character(max(all_years)))
+  sub <- paste0(as.character(min(all_years)), "-",
+                as.character(max(all_years)))
 
   # Make time series plot
   ts_plot <- df %>%
-    filter(!country %in% .highlight_country) %>% # Remove highighted countries
+    filter(!.data$country %in% .highlight_country) %>%
     ggplot() +
     aes(
-      x = year,
-      y = obese_rate,
-      group = country
+      x = .data$year,
+      y = .data$obese_rate,
+      group = .data$country
     ) +
     geom_line(aes(text = paste(
-      "Country:", country,
-      "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
-      "\nYear: ", year
+      "Country:", .data$country,
+      "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
+      "\nYear: ", .data$year
     )),
     color = "grey80",
     alpha = 0.5
     ) + # Add lines
     geom_point(
-      data = highlight %>% filter(year == max(all_years)), # Add end points
+      data = highlight %>%
+        filter(.data$year == max(all_years)), # Add end points
       aes(
-        x = as.integer(year),
-        y = obese_rate,
+        x = as.integer(.data$year),
+        y = .data$obese_rate,
         text = paste(
-          "Country:", country,
-          "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
-          "\nYear: ", year
+          "Country:", .data$country,
+          "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
+          "\nYear: ", .data$year
         )
       ),
       size = 1,
@@ -196,13 +212,13 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada
     geom_line(
       data = highlight, # Add highlighted countries
       aes(
-        x = year,
-        y = obese_rate,
-        color = country,
+        x = .data$year,
+        y = .data$obese_rate,
+        color = .data$country,
         text = paste(
-          "Country:", country,
-          "\nObesity Rate: ", scales::percent(obese_rate, 1.1),
-          "\nYear: ", year
+          "Country:", .data$country,
+          "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
+          "\nYear: ", .data$year
         )
       )
     ) +

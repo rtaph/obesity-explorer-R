@@ -4,7 +4,7 @@
 \alias{make_rate_data}
 \title{Generate a Rate Data for Plotting}
 \usage{
-make_rate_data(grp, fltr, vals = "obese", data = ob)
+make_rate_data(grp, fltr, vals = "obese")
 }
 \arguments{
 \item{grp}{A character string of categorical grouping variable names.}
@@ -15,8 +15,6 @@ membership is to be evaluated (see examples).}
 
 \item{vals}{A character string of continuous variables for which a rate will be
 calculated relative to population. Defaults to "obese."}
-
-\item{data}{The obesity dataframe.}
 }
 \value{
 A dataframe with rates calculated for each value in vals.
@@ -25,7 +23,6 @@ A dataframe with rates calculated for each value in vals.
 Generate a Rate Data for Plotting
 }
 \examples{
-ob <- readr::read_csv(here::here("data", "processed", "obesity-combo.csv"))
 grp <- c("sex", "country")
 vals <- c("obese", "unemployed")
 fltr <- list(

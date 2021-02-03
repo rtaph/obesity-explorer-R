@@ -1,5 +1,11 @@
 # Obesity Explorer
 
+<!-- badges: start -->
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R-CMD-check](https://github.com/UBC-MDS/obesity-explorer-R/workflows/R-CMD-check/badge.svg)](https://github.com/UBC-MDS/obesity-explorer-R/actions)
+[![Codecov test coverage](https://codecov.io/gh/UBC-MDS/obesity-explorer-R/branch/main/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/obesity-explorer-R?branch=main)
+<!-- badges: end -->
+
 Authors: Dustin Burnham, Javairia Raza, Rafael Pilliard Hellwig, Tanmay Sharma
 
 ## Using the Obesity Dashboard
