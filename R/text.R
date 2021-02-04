@@ -4,12 +4,12 @@ footer <- "
 ##### Data Sources
 
 The World Bank (n.d.). [Indicators](https://data.worldbank.org/indicator). 
-Retrieved January 16, 2021, from https://data.worldbank.org/indicator.
+Retrieved February 3, 2021, from https://data.worldbank.org/indicator.
 
 World Health Organization(WHO) (n.d.). 
 [Prevalence of obesity among adults, BMI = 30 (age-standardized estimate) (%)](
 https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)). 
-Retrieved January 16, 2021. 
+Retrieved February 3, 2021. 
 
 
 ---
