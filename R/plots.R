@@ -7,7 +7,7 @@
 #' @param n a scalar representing the number of countries to chart.
 #'
 #' @import ggplot2
-#' @importFrom plotly ggplotly
+#' @importFrom plotly ggplotly layout
 #' @importFrom utils head
 #' @return A plotly object.
 #' @export
@@ -38,22 +38,23 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
     )) +
     geom_col() +
     scale_fill_viridis_c(
-      limits = c(
-        min(df$obese_rate, na.rm = TRUE),
-        max(df$obese_rate)
-      ), oob = scales::squish,
-      labels = scales::percent_format(1)
+      limits = c(0, 0.5), oob = scales::squish,
+      labels = scales::percent_format(1),
+      breaks = seq(0, 0.4, 0.2)
     ) +
     labs(
       title = str_glue("Top 10 Countries ({.year})"),
       x = "Obesity Rate(%)",
       y = NULL,
-      fill = "Obesity"
+      fill = "Obesity Rate"
     ) +
-    theme(axis.title.y = element_blank()) +
     theme_classic() +
+    theme(
+      axis.title.y = element_blank(),
+      plot.title = element_text(hjust = 0.5)
+    ) +
     scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p, tooltip = c("text"))
+  ggplotly(p, tooltip = c("text"), height = 300)
 }
 
 #' Create a Choropleth Map of Obesity Rates
@@ -88,17 +89,35 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
       "\nYear: ", .year
     ), across(.data$obese_rate, ~ . * 100))
 
+  # Margin settings
+  m <- list(
+    l = 70,
+    r = 1,
+    b = 1,
+    t = 50,
+    pad = 4
+  )
+
   # Plot
   plot_ly(df,
     type = "choropleth", locations = ~iso3c, z = ~obese_rate,
     text = ~text_tooltip, hoverinfo = "text"
   ) %>%
     colorbar(
-      limits = c(min(df$obese_rate, na.rm = TRUE), max(df$obese_rate)),
+      limits = c(0, 50),
       value = "percent",
-      title = "<b> Obesity Rate </b>",
-      ticksuffix = "%"
-    )
+      title = "Obesity Rate",
+      ticksuffix = "%",
+      x = 1,
+      y = 0.8
+    ) %>%
+    layout(margin = m, height = 300, title = list(
+      text = paste0("World Obesity (", as.character(.year), ")"),
+      y = 0.9
+    ), geo = list(
+      showframe = FALSE, showcoastlines = FALSE,
+      projection = list(type = "Mercator")
+    ))
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables

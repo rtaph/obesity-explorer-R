@@ -87,15 +87,18 @@ app$layout(
                 dccTab(label = "Country Standings", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "choropleth_plot"),
-                      dccGraph(id = "bar_plot")
+                      dccGraph(id = "choropleth_plot", 
+                               config = list('displayModeBar' = FALSE)),
+                      dccGraph(id = "bar_plot", 
+                               config = list('displayModeBar' = FALSE))
                     )
                   )
                 )),
                 dccTab(label = "Trends", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "ts_plot"),
+                      dccGraph(id = "ts_plot",
+                               config = list('displayModeBar' = FALSE)),
                       htmlBr(),
                       dbcLabel("Select Year Range:"),
                       dccRangeSlider(
@@ -123,7 +126,8 @@ app$layout(
                 dccTab(label = "Associations", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "scatter_plot"),
+                      dccGraph(id = "scatter_plot", 
+                               config = list('displayModeBar' = FALSE)),
                       htmlBr(),
                       dbcLabel("Select Coloring Variable: "),
                       dccDropdown(
