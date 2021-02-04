@@ -18,6 +18,7 @@ css <- custom_css()
 
 # Define app layout
 app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
+app$title("Obesity Explorer")
 app$layout(
   dbcContainer(
     list(
