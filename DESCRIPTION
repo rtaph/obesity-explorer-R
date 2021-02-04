@@ -41,6 +41,7 @@ Imports:
     tidyverse,
     ggplot2,
     magrittr
+    devtools
 Suggests:
     lintr,
     checkmate,
