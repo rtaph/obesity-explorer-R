@@ -55,8 +55,8 @@ indicators <- c(
   youthpop.Female = "SP.POP.0014.FE.IN",
   youthpop.Male = "SP.POP.0014.MA.IN",
 
-  rate_literacy.Male = "SE.ADT.LITR.MA.ZS",
-  rate_literacy.Female = "SE.ADT.LITR.FE.ZS",
+  literacy.Male = "SE.ADT.LITR.MA.ZS",
+  literacy.Female = "SE.ADT.LITR.FE.ZS",
 
   rate_smoke.Male = "SH.PRV.SMOK.MA",
   rate_smoke.Female = "SH.PRV.SMOK.FE",
@@ -106,6 +106,7 @@ wb_df <- wb %>%
   mutate(across(rate, ~ . / 100),
          count = round(pop * rate)) %>%
   select(-rate) %>%
+  mutate(literacy = literacy * (pop - youthpop)) %>%
   pivot_wider(names_from = indicator, values_from = count) %>%
   mutate(across(country, fix_cy, old = cydict$world_bank))
 

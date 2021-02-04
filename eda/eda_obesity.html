@@ -227,8 +227,8 @@ indicators &lt;- c(
   youthpop.Female = &quot;SP.POP.0014.FE.IN&quot;,
   youthpop.Male = &quot;SP.POP.0014.MA.IN&quot;,
 
-  rate_literacy.Male = &quot;SE.ADT.LITR.MA.ZS&quot;,
-  rate_literacy.Female = &quot;SE.ADT.LITR.FE.ZS&quot;,
+  literacy.Male = &quot;SE.ADT.LITR.MA.ZS&quot;,
+  literacy.Female = &quot;SE.ADT.LITR.FE.ZS&quot;,
 
   rate_smoke.Male = &quot;SH.PRV.SMOK.MA&quot;,
   rate_smoke.Female = &quot;SH.PRV.SMOK.FE&quot;,
@@ -277,6 +277,7 @@ wb_df &lt;- wb %&gt;%
   mutate(across(rate, ~ . / 100),
          count = round(pop * rate)) %&gt;%
   select(-rate) %&gt;%
+  mutate(literacy = literacy * (pop - youthpop)) %&gt;%
   pivot_wider(names_from = indicator, values_from = count) %&gt;%
   mutate(across(country, fix_cy, old = cydict$world_bank))
 
