@@ -134,7 +134,7 @@ app$layout(
                       dccDropdown(
                         id = "input_grouper",
                         options = list(
-                          list(label = "Income group", value = "income"),
+                          list(label = "Income level (country)", value = "income"),
                           list(label = "Sex", value = "sex"),
                           list(label = "Region", value = "region"),
                           list(label = "No grouping", value = "none")
