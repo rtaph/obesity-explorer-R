@@ -25,8 +25,8 @@ rate <- function(x, y) {
 #' @param fltr A named list of filters, where each list element name is the
 #'   name of the variable and the element value is a string of values whose
 #'   membership is to be evaluated (see examples).
-#' @param vals A character string of continuous variables for which a rate will be
-#'   calculated relative to population. Defaults to "obese."
+#' @param vals A character string of continuous variables for which a rate will
+#'   be calculated relative to population. Defaults to "obese."
 #'
 #' @return A dataframe with rates calculated for each value in vals.
 #' @export

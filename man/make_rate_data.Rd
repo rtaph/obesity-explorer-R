@@ -13,8 +13,8 @@ make_rate_data(grp, fltr, vals = "obese")
 name of the variable and the element value is a string of values whose
 membership is to be evaluated (see examples).}
 
-\item{vals}{A character string of continuous variables for which a rate will be
-calculated relative to population. Defaults to "obese."}
+\item{vals}{A character string of continuous variables for which a rate will
+be calculated relative to population. Defaults to "obese."}
 }
 \value{
 A dataframe with rates calculated for each value in vals.

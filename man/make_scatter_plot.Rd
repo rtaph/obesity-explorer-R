@@ -22,9 +22,11 @@ make_scatter_plot(
 
 \item{.sex}{The sex group callback (scalar character)}
 
-\item{.regressor}{The regressor to be used in the scatter plot (character vector)}
+\item{.regressor}{The regressor to be used in the scatter plot (character
+vector)}
 
-\item{.grouper}{The attribute to be used for grouping the data in the scatter plot (character vector)}
+\item{.grouper}{The attribute to be used for grouping the data in the
+scatter plot (character vector)}
 }
 \value{
 A plotly object.

@@ -155,6 +155,7 @@ app$layout(
                         style = css$dd,
                         multi = FALSE
                       ),
+                      htmlDiv(id = 'load'),
                       htmlBr()
                     )
                   )
@@ -214,6 +215,21 @@ app$callback(
     input("input_grouper", "value")
   ),
   make_scatter_plot
+)
+
+app$callback(
+  output("load", "children"),
+  list(
+    input("input_regressor", "value")
+  ),
+  function(selection){
+    if (selection == "smoke"){
+      text <- smoke_txt
+    } else {
+      text <- NULL
+    }
+    return(htmlDiv(list(dccMarkdown(text))))
+  }
 )
 
 if (Sys.getenv("DYNO") == "") {

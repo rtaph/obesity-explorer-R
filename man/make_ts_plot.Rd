@@ -16,7 +16,8 @@ make_ts_plot(
 
 \item{.sex}{The sex group callback (scalar character)}
 
-\item{.highlight_country}{The countries we want to highlight (character vector)}
+\item{.highlight_country}{The countries we want to highlight (character
+vector)}
 
 \item{.year_range}{The year range input callback (integer vector)}
 }

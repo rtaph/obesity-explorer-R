@@ -18,7 +18,8 @@ This dashboard is created by
 [tanmaysharma19](https://github.com/tanmaysharma19),
 [jraza19](https://github.com/jraza19), and 
 [rtaph](https://github.com/rtaph). 
-View the source code and contribute [here](https://github.com/UBC-MDS/obesity-explorer-R).
+View the source code and contribute
+[here](https://github.com/UBC-MDS/obesity-explorer-R).
 "
 
 header <- "
@@ -27,4 +28,9 @@ Obesity has been an increasing medical concern across the world in the
 heart diseases, high blood pressure and certain types of cancers.
 This dashboard allows you to explore trends, probe associations, and 
 discover other patterns related to this global epidemic
+"
+
+smoke_txt <- "
+Please note that the smoke rate data has missing values and is not highly 
+reliable. 
 "
