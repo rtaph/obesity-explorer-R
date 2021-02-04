@@ -40,14 +40,15 @@ Imports:
     tibble,
     tidyverse,
     ggplot2,
-    magrittr
+    magrittr,
     devtools
 Suggests:
     lintr,
     checkmate,
     spelling,
     testthat (>= 3.0.0),
-    covr
+    covr,
+    WDI
 Language: en-US
 Remotes: 
     facultyai/dash-bootstrap-components@r-release
