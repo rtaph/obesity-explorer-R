@@ -51,7 +51,7 @@ id,altair,obesity,world_bank,iso3c
 180,"Congo, the Democratic Republic of the",Democratic Republic of the Congo,"Congo, Dem. Rep.",COD
 ,,Cook Islands,,
 188,Costa Rica,Costa Rica,Costa Rica,CRI
-384,Cote d'Ivoire,CÃ´te d'Ivoire,Cote d'Ivoire,CIV
+384,Cote d'Ivoire,C™te d'Ivoire,Cote d'Ivoire,CIV
 191,Croatia,Croatia,Croatia,HRV
 192,Cuba,Cuba,Cuba,CUB
 ,,,Curacao,CUW
@@ -125,7 +125,7 @@ id,altair,obesity,world_bank,iso3c
 400,Jordan,Jordan,Jordan,JOR
 398,Kazakhstan,Kazakhstan,Kazakhstan,KAZ
 404,Kenya,Kenya,Kenya,KEN
-408,"Korea, Democratic People's Republic of",Democratic People's Republic of Korea,"Korea, Dem. Peopleâ€™s Rep.",PRK
+408,"Korea, Democratic People's Republic of",Democratic People's Republic of Korea,"Korea, Dem. PeopleÕs Rep.",PRK
 ,,Kiribati,Kiribati,KIR
 410,"Korea, Republic of",Republic of Korea,"Korea, Rep.",KOR
 ,,,Kosovo,XKX
