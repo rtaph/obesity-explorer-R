@@ -27,3 +27,6 @@ A plotly object.
 \description{
 Create a Time Series of Obesity Rates
 }
+\examples{
+make_ts_plot()
+}

@@ -11,7 +11,11 @@
 #' @importFrom utils head
 #' @return A plotly object.
 #' @export
-make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
+#'
+#' @examples
+#' make_bar_plot()
+make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
+                          .sex = NULL, n = 10) {
   # Generate a filtering string
   fltr <- list(
     region = .region, year = .year, income = .income,
@@ -70,8 +74,11 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
 #' @importFrom plotly plot_ly colorbar
 #' @return A plotly object.
 #' @export
-make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
-                                 .sex = NULL, cydict = cydict) {
+#'
+#' @examples
+#' make_choropleth_plot()
+make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
+                                 .sex = NULL) {
   # Generate a filtering string
   fltr <- list(
     region = .region, year = .year, income = .income,
@@ -80,8 +87,11 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 
   # Subset and aggregate data
   df <- make_rate_data("country", fltr) %>%
-    left_join(select(cydict, country = .data$world_bank, .data$iso3c),
-      by = "country"
+    left_join(select(obesityexplorer::cydict,
+      country = .data$world_bank,
+      .data$iso3c
+    ),
+    by = "country"
     ) %>%
     mutate(text_tooltip = paste(
       "Country:", .data$country,
@@ -100,7 +110,7 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
   )
 
   # Plot
-  plot_ly(df,
+  plot_ly(na.omit(df),
     type = "choropleth", locations = ~iso3c, z = ~obese_rate,
     text = ~text_tooltip, hoverinfo = "text"
   ) %>%
@@ -136,6 +146,9 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @importFrom plotly ggplotly
 #' @importFrom stringr str_glue
 #' @export
+#'
+#' @examples
+#' make_scatter_plot()
 make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
                               .sex = NULL, .regressor = "smoke",
                               .grouper = "sex") {
@@ -146,8 +159,9 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
   )
   # Subset and aggregate data
   chosen_rate <- as.character(str_glue("{.regressor}_rate"))
-  df <- make_rate_data(c(.grouper, "country"), fltr, 
-                       vals = c(.regressor, "obese")) %>%
+  df <- make_rate_data(c(.grouper, "country"), fltr,
+    vals = c(.regressor, "obese")
+  ) %>%
     mutate(rate = !!sym(chosen_rate))
 
   # Plot
@@ -162,8 +176,10 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
       text = str_glue(
         "Country: {country}
          Obesity Rate: {scales::percent(obese_rate, 0.1)}
-         {create_label(.regressor)}: {scales::percent(rate, 0.1)}"))) +
-    geom_smooth(se = FALSE, method = "lm", size=0.75) +
+         {create_label(.regressor)}: {scales::percent(rate, 0.1)}"
+      )
+    )) +
+    geom_smooth(se = FALSE, method = "lm", formula = y ~ x, size = 0.75) +
     labs(
       title = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
       x = str_glue("{create_label(.regressor)}"),
@@ -189,15 +205,24 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @importFrom plotly ggplotly
 #' @importFrom forcats fct_reorder
 #' @export
+#'
+#' @examples
+#' make_ts_plot()
 make_ts_plot <- function(.year = 2010, .sex = NULL,
-                         .highlight_country = "Canada", 
+                         .highlight_country = "Canada",
                          .year_range = list(1975, 2016)) {
   all_years <- seq(.year_range[[1]], .year_range[[2]])
+
   # Generate a filtering string
   fltr <- list(year = all_years, sex = remap_sex(.sex))
 
   # Subset and aggregate data
-  df <- make_rate_data(c("country", "year"), fltr)
+  df <- make_rate_data(c("country", "year"), fltr) %>%
+    mutate(text = paste(
+      "Country:", .data$country,
+      "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
+      "\nYear: ", .data$year
+    ))
 
   # Get data for highlighted country
   highlight <- df %>%
@@ -218,27 +243,19 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
     aes(
       x = .data$year,
       y = .data$obese_rate,
-      group = .data$country
+      group = .data$country,
+      text = text
     ) +
-    geom_line(aes(text = paste(
-      "Country:", .data$country,
-      "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
-      "\nYear: ", .data$year
-    )),
-    color = "grey80",
-    alpha = 0.5
+    geom_line(aes(text = text),
+      color = "grey80", na.rm = TRUE,
+      alpha = 0.5
     ) + # Add lines
     geom_point(
-      data = highlight %>%
-        filter(.data$year == max(all_years)), # Add end points
+      data = filter(highlight, .data$year == max(all_years)), # Add end points
       aes(
         x = as.integer(.data$year),
         y = .data$obese_rate,
-        text = paste(
-          "Country:", .data$country,
-          "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
-          "\nYear: ", .data$year
-        )
+        text = text
       ),
       size = 1,
       color = "black",
@@ -251,11 +268,7 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
         x = .data$year,
         y = .data$obese_rate,
         color = .data$country,
-        text = paste(
-          "Country:", .data$country,
-          "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
-          "\nYear: ", .data$year
-        )
+        text = text
       )
     ) +
     geom_vline(xintercept = .year, linetype = "dotted") + # Add vertical line
@@ -274,5 +287,5 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
     ) +
     theme_bw()
 
-  ggplotly(ts_plot, tooltip = c("text"))
+  ggplotly(ts_plot, tooltip = "text")
 }
