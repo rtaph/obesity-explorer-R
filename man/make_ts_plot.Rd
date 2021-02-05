@@ -8,7 +8,9 @@ make_ts_plot(
   .year = 2010,
   .sex = NULL,
   .highlight_country = "Canada",
-  .year_range = list(1975, 2016)
+  .year_range = list(1975, 2016),
+  .income = NULL,
+  .region = NULL
 )
 }
 \arguments{
@@ -20,6 +22,10 @@ make_ts_plot(
 vector)}
 
 \item{.year_range}{The year range input callback (integer vector)}
+
+\item{.income}{The income group callback (character vector)}
+
+\item{.region}{The region input callback (character vector)}
 }
 \value{
 A plotly object.

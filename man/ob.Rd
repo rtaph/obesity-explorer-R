@@ -14,18 +14,21 @@ capital city of the country.} \item{longitude}{The longitude of the
 capital city.} \item{latitude}{The latitude of the capital city.}
 \item{income}{The name of the country income group.} \item{lending}{The
 name of the IMF country lending category.} \item{lifexp}{The country life
-expectancy for the stratum.} \item{pop}{The population count of the
+expectancy for the stratum.} \item{literacy}{The number of literate
+individuals for the stratum (row)} \item{pop}{The population count of the
 stratum (row).} \item{primedu}{The number of individuals in the stratum
 (row) who have completed basic primary education} \item{smoke}{The number
 of individuals in the stratum (row) who smoke.} \item{unemployed}{The
 number of individuals in the stratum (row) who are unemployed.}
 \item{obese}{The number of individuals in the stratum (row) who are
 obese.} \item{none}{A placeholder column with level "All" for dashboarding
-purposes only.} }
+purposes only.} \item{flag_smoke}{ A dichotomous variable indicating
+whether the smoking data is observed or imputed (missing).}
+\item{youthpop}{The count of youth in the stratum (row).}}
 }
 \source{
-\describe{
-\item{WHO Obesity Data}{\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}}
+\describe{ \item{WHO Obesity
+Data}{\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}}
 \item{World Bank Indicators}{\url{https://data.worldbank.org/indicator}}
 }
 }

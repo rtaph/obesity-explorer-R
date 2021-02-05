@@ -163,20 +163,22 @@ custom_css <- function() {
 #'   capital city.} \item{latitude}{The latitude of the capital city.}
 #'   \item{income}{The name of the country income group.} \item{lending}{The
 #'   name of the IMF country lending category.} \item{lifexp}{The country life
-#'   expectancy for the stratum.} \item{pop}{The population count of the
+#'   expectancy for the stratum.} \item{literacy}{The number of literate
+#'   individuals for the stratum (row)} \item{pop}{The population count of the
 #'   stratum (row).} \item{primedu}{The number of individuals in the stratum
 #'   (row) who have completed basic primary education} \item{smoke}{The number
 #'   of individuals in the stratum (row) who smoke.} \item{unemployed}{The
 #'   number of individuals in the stratum (row) who are unemployed.}
 #'   \item{obese}{The number of individuals in the stratum (row) who are
 #'   obese.} \item{none}{A placeholder column with level "All" for dashboarding
-#'   purposes only.} }
-#' @source
-#' \describe{
-#'   \item{WHO Obesity Data}{\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}}
-#'   \item{World Bank Indicators}{\url{https://data.worldbank.org/indicator}}
+#'   purposes only.} \item{flag_smoke}{ A dichotomous variable indicating
+#'   whether the smoking data is observed or imputed (missing).}
+#'   \item{youthpop}{The count of youth in the stratum (row).}}
+#' @source \describe{ \item{WHO Obesity
+#'   Data}{\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}}
+#'    \item{World Bank Indicators}{\url{https://data.worldbank.org/indicator}}
 #'   }
-#'
+#'   
 "ob"
 
 #' Dictionary of Country Names
@@ -189,6 +191,7 @@ custom_css <- function() {
 #'   \item{altair}{The country name in Altair (Python).}
 #'   \item{obesity}{The country name in the obesity dataset.}
 #'   \item{world_bank}{The country name in World Bank dataset.}
+#'   \item{pref}{The preferred country name.}
 #'   \item{iso3c}{The ISO 3-letter country code.}
 #' }
 "cydict"

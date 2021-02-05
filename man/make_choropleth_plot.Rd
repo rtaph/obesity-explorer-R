@@ -14,9 +14,6 @@ make_choropleth_plot(.region = NULL, .year = 2016, .income = NULL, .sex = NULL)
 \item{.income}{The income group callback (character vector)}
 
 \item{.sex}{The sex group callback (scalar character)}
-
-\item{cydict}{A two-column dataframe containing country names and their
-3-letter ISO codes.}
 }
 \value{
 A plotly object.

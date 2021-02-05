@@ -11,6 +11,7 @@ A data frame with 262 rows and 5 variables:
 \item{altair}{The country name in Altair (Python).}
 \item{obesity}{The country name in the obesity dataset.}
 \item{world_bank}{The country name in World Bank dataset.}
+\item{pref}{The preferred country name.}
 \item{iso3c}{The ISO 3-letter country code.}
 }
 }

@@ -67,8 +67,6 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
 #' @param .year The year input callback (integer vector)
 #' @param .income The income group callback (character vector)
 #' @param .sex The sex group callback (scalar character)
-#' @param cydict A two-column dataframe containing country names and their
-#'   3-letter ISO codes.
 #'
 #' @import ggplot2
 #' @importFrom plotly plot_ly colorbar
@@ -98,7 +96,7 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
       "\nYear: ", .year
     )) %>%
-    mutate(across(obese_rate, ~ . * 100))
+    mutate(across(.data$obese_rate, ~ . * 100))
 
   # Margin settings
   m <- list(
@@ -110,7 +108,7 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
   )
 
   # Plot
-  plot_ly(na.omit(df),
+  plot_ly(stats::na.omit(df),
     type = "choropleth", locations = ~iso3c, z = ~obese_rate,
     text = ~text_tooltip, hoverinfo = "text"
   ) %>%
@@ -200,6 +198,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @param .sex The sex group callback (scalar character)
 #' @param .highlight_country The countries we want to highlight (character
 #'   vector)
+#' @param .income The income group callback (character vector)
+#' @param .region The region input callback (character vector)
 #'
 #' @return A plotly object.
 #' @import ggplot2
@@ -252,23 +252,24 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
       y = .data$obese_rate,
       group = .data$country
     )) +
-    geom_line(aes(text = text),
+    geom_line(aes(text = .data$text),
       color = "grey80", na.rm = TRUE,
       alpha = 0.5
-    ) + 
+    ) +
     geom_line(
       data = highlight, # Add highlighted countries
       aes(
         x = .data$year,
         y = .data$obese_rate,
         color = .data$country,
-        text = text
+        text = .data$text
       )
     ) +
-    geom_vline(aes(group = factor("Selected Year")), 
-               xintercept = .year, 
-               linetype = "dotted", 
-               show.legend = TRUE) + # Add vertical line
+    geom_vline(aes(group = factor("Selected Year")),
+      xintercept = .year,
+      linetype = "dotted",
+      show.legend = TRUE
+    ) + # Add vertical line
     scale_x_continuous(
       limits = c(min(all_years), max(all_years)),
       expand = c(0, 0),
@@ -278,15 +279,20 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
     labs(
       x = "Year",
       y = "Obesity Rate",
-      color = "Country") +
+      color = "Country"
+    ) +
     theme_bw()
 
-  ggplotly(ts_plot, tooltip = "text") %>% 
-    layout(title = list(text = paste0("World Obesity (", sub, ")",
-                                      "<br>",
-                                      "<sup>",
-                                      str_glue("Year Selected: {.year}"), 
-                                      "</sup>"),
-                        xanchor = "center",
-                        x = 0.5))
+  ggplotly(ts_plot, tooltip = "text") %>%
+    layout(title = list(
+      text = paste0(
+        "World Obesity (", sub, ")",
+        "<br>",
+        "<sup>",
+        str_glue("Year Selected: {.year}"),
+        "</sup>"
+      ),
+      xanchor = "center",
+      x = 0.5
+    ))
 }
