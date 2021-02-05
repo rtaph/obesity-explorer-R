@@ -106,9 +106,9 @@ wb_df <- wb %>%
   mutate(across(rate, ~ . / 100),
          count = round(pop * rate)) %>%
   select(-rate) %>%
-  mutate(literacy = literacy * (pop - youthpop)) %>%
+  mutate(literacy = (literacy / 100) * (pop - youthpop)) %>%
   pivot_wider(names_from = indicator, values_from = count) %>%
-  mutate(across(country, fix_cy, old = cydict$world_bank))
+  mutate(across(country, fix_cy, old = cydict$world_bank)) 
 
 # Combine data
 combo <- ob <- obesity %>%

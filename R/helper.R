@@ -91,6 +91,8 @@ create_label <- function(x) {
     x == "smoke" ~ "Smoking Rate",
     x == "income" ~ "Income Level",
     x == "primedu" ~ "Primary Education Rate",
+    x == "literacy_rate" ~ "Adult Literacy Rate",
+    x == "literacy" ~ "Adult Literacy Rate",
     x == "region" ~ "Region",
     x == "unemployed" ~ "Unemployment Rate",
     x == "country" ~ "Country",

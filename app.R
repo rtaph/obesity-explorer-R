@@ -190,8 +190,8 @@ app$layout(
                                 options = list(
                                   list(label = "Smoking Rate", value = "smoke"),
                                   list(
-                                    label = "Primary Education Completion Rate",
-                                    value = "primedu"
+                                    label = "Literacy Rate",
+                                    value = "literacy"
                                   ),
                                   list(
                                     label = "Unemployment Rate",

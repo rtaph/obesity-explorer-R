@@ -148,7 +148,7 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
 #' @examples
 #' make_scatter_plot()
 make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
-                              .sex = NULL, .regressor = "smoke",
+                              .sex = NULL, .regressor = "literacy",
                               .grouper = "sex") {
   # Generate a filtering string
   fltr <- list(
