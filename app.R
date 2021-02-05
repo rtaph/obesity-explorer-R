@@ -6,6 +6,7 @@ library(dashHtmlComponents)
 library(dashCoreComponents)
 library(dashBootstrapComponents)
 library(tidyverse)
+library(devtools)
 
 # Load custom functions and data
 devtools::load_all(".")
@@ -22,7 +23,9 @@ app$title("Obesity Explorer")
 app$layout(
   dbcContainer(
     list(
-      htmlH1("Obesity Dashboard"),
+      htmlH1("Obesity Dashboard",
+        style = css$header
+      ),
       dccMarkdown(header),
       dbcRow(
         list(
@@ -60,8 +63,10 @@ app$layout(
               dbcLabel("Filter Region:"),
               dccDropdown(
                 id = "input_region",
-                options = map(unique(ob$region), 
-                              ~ list(label = ., value = .)),
+                options = map(
+                  unique(ob$region),
+                  ~ list(label = ., value = .)
+                ),
                 value = unique(ob$region),
                 clearable = FALSE,
                 style = css$dd,
@@ -88,38 +93,66 @@ app$layout(
                 dccTab(label = "Country Standings", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "choropleth_plot", 
-                               config = list('displayModeBar' = FALSE)),
-                      dccGraph(id = "bar_plot", 
-                               config = list('displayModeBar' = FALSE))
+                      dbcCard(
+                        list(
+                          dbcCardBody(
+                            dccGraph(
+                              id = "choropleth_plot",
+                              config = list("displayModeBar" = FALSE)
+                            )
+                          )
+                        )
+                      ),
+                      dbcCard(
+                        list(
+                          dbcCardBody(
+                            dccGraph(
+                              id = "bar_plot",
+                              config = list("displayModeBar" = FALSE)
+                            )
+                          )
+                        )
+                      )
                     )
                   )
                 )),
                 dccTab(label = "Trends", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "ts_plot",
-                               config = list('displayModeBar' = FALSE)),
-                      htmlBr(),
-                      dbcLabel("Select Year Range:"),
-                      dccRangeSlider(
-                        id = "input_year_range",
-                        min = 1975,
-                        max = 2016,
-                        step = 1,
-                        value = c(1975, 2016),
-                        marks = as.list(set_names((a[seq(1, length(a), 5)])))
-                      ),
-                      htmlBr(),
-                      dbcLabel("Highlight Countries:"),
-                      dccDropdown(
-                        id = "input_highlight_country",
-                        options = map(unique(ob$country), 
-                                      ~ list(label = ., value = .)),
-                        value = "Canada",
-                        clearable = TRUE,
-                        searchable = TRUE,
-                        multi = TRUE
+                      dbcCard(
+                        list(
+                          dbcCardBody(
+                            list(
+                              dccGraph(
+                                id = "ts_plot",
+                                config = list("displayModeBar" = FALSE)
+                              ),
+                              htmlBr(),
+                              dbcLabel("Select Year Range:"),
+                              dccRangeSlider(
+                                id = "input_year_range",
+                                min = 1975,
+                                max = 2016,
+                                step = 1,
+                                value = c(1975, 2016),
+                                marks = as.list(set_names((a[seq(1, length(a), 5)])))
+                              ),
+                              htmlBr(),
+                              dbcLabel("Highlight Countries:"),
+                              dccDropdown(
+                                id = "input_highlight_country",
+                                options = map(
+                                  unique(ob$country),
+                                  ~ list(label = ., value = .)
+                                ),
+                                value = "Canada",
+                                clearable = TRUE,
+                                searchable = TRUE,
+                                multi = TRUE
+                              )
+                            )
+                          )
+                        )
                       )
                     )
                   )
@@ -127,48 +160,63 @@ app$layout(
                 dccTab(label = "Associations", children = list(
                   htmlDiv(
                     list(
-                      dccGraph(id = "scatter_plot", 
-                               config = list('displayModeBar' = FALSE)),
-                      htmlBr(),
-                      dbcLabel("Select Coloring Variable: "),
-                      dccDropdown(
-                        id = "input_grouper",
-                        options = list(
-                          list(label = "Income level (country)", value = "income"),
-                          list(label = "Sex", value = "sex"),
-                          list(label = "Region", value = "region"),
-                          list(label = "No grouping", value = "none")
-                        ),
-                        value = "none",
-                        style = css$dd,
-                        clearable = FALSE,
-                        multi = FALSE
-                      ),
-                      htmlBr(),
-                      dbcLabel("Select X-Axis Variable: "),
-                      dccDropdown(
-                        id = "input_regressor",
-                        options = list(
-                          list(label = "Smoking Rate", value = "smoke"),
-                          list(label = "Primary Education Completion Rate", 
-                               value = "primedu"),
-                          list(label = "Unemployment Rate",
-                               value = "unemployed")
-                        ),
-                        value = "unemployed",
-                        clearable = FALSE,
-                        style = css$dd,
-                        multi = FALSE
-                      ),
-                      htmlDiv(id = 'load'),
-                      htmlBr()
+                      dbcCard(
+                        list(
+                          dbcCardBody(
+                            list(
+                              dccGraph(
+                                id = "scatter_plot",
+                                config = list("displayModeBar" = FALSE)
+                              ),
+                              htmlBr(),
+                              dbcLabel("Select Coloring Variable: "),
+                              dccDropdown(
+                                id = "input_grouper",
+                                options = list(
+                                  list(label = "Income level (country)", value = "income"),
+                                  list(label = "Sex", value = "sex"),
+                                  list(label = "Region", value = "region"),
+                                  list(label = "No grouping", value = "none")
+                                ),
+                                value = "none",
+                                style = css$dd,
+                                clearable = FALSE,
+                                multi = FALSE
+                              ),
+                              htmlBr(),
+                              dbcLabel("Select X-Axis Variable: "),
+                              dccDropdown(
+                                id = "input_regressor",
+                                options = list(
+                                  list(label = "Smoking Rate", value = "smoke"),
+                                  list(
+                                    label = "Primary Education Completion Rate",
+                                    value = "primedu"
+                                  ),
+                                  list(
+                                    label = "Unemployment Rate",
+                                    value = "unemployed"
+                                  )
+                                ),
+                                value = "unemployed",
+                                clearable = FALSE,
+                                style = css$dd,
+                                multi = FALSE
+                              ),
+                              htmlDiv(id = "load"),
+                              htmlBr()
+                            )
+                          )
+                        )
+                      )
                     )
                   )
                 ))
               ))
             ),
           )
-        )
+        ),
+        style = css$no_left_pad
       ),
       htmlBr()
     )
@@ -227,18 +275,22 @@ app$callback(
   list(
     input("input_regressor", "value")
   ),
-  function(selection){
-    if (selection == "smoke"){
+  function(selection) {
+    if (selection == "smoke") {
       text <- smoke_txt
     } else {
       text <- NULL
     }
-    return(htmlDiv(list(dccMarkdown(text))))
+    return(htmlDiv(list(dccMarkdown(text, style = css$caveat))))
   }
 )
 
 if (Sys.getenv("DYNO") == "") {
-  app$run_server(debug = TRUE)
+  app$run_server(
+    debug = TRUE,
+    dev_tools_hot_reload = TRUE
+  )
 } else {
   app$run_server(host = "0.0.0.0")
 }
+

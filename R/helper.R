@@ -42,7 +42,6 @@ rate <- function(x, y) {
 #' )
 #' make_rate_data(grp, fltr, vals)
 make_rate_data <- function(grp, fltr, vals = "obese") {
-
   fltr <- purrr::discard(fltr, is.null)
   obesityexplorer::ob %>%
     filter(across(all_of(names(fltr)), ~ . %in% fltr[[cur_column()]])) %>%
@@ -114,7 +113,26 @@ custom_css <- function() {
   css$box <- list(
     "border" = "1px solid #d3d3d3",
     "border-radius" = "10px",
+    "margin" = "0px",
     "background-color" = "rgba(220, 220, 220, 0.5)"
+  )
+
+  # Dashboard header parameters
+  css$header <- list(
+    "background-color" =  "gray",
+    "padding" = 20,
+    "color" = "white",
+    "margin-top" = 20,
+    "margin-bottom" = 20,
+    "font-size" = "48px",
+    "border-radius" = 3
+  )
+
+  # Caveat for missing smoking data
+  css$caveat <- list(
+    "font-size" = "x-small",
+    "color" = "gray",
+    "font-style" = "italic"
   )
 
   # Drop-down choices
@@ -122,6 +140,8 @@ custom_css <- function() {
 
   # Footnote text
   css$sources <- list("font-size" = "xx-small")
+
+  css$no_left_pad <- list("margin-left" = "0px")
 
   # Return CSS
   css
