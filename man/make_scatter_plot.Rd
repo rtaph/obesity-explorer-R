@@ -34,3 +34,6 @@ A plotly object.
 \description{
 Create a Scatter Map of Obesity Rates vs. Other Variables
 }
+\examples{
+make_scatter_plot()
+}

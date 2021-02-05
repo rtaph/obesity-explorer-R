@@ -4,13 +4,7 @@
 \alias{make_choropleth_plot}
 \title{Create a Choropleth Map of Obesity Rates}
 \usage{
-make_choropleth_plot(
-  .region = NULL,
-  .year = NULL,
-  .income = NULL,
-  .sex = NULL,
-  cydict = cydict
-)
+make_choropleth_plot(.region = NULL, .year = 2016, .income = NULL, .sex = NULL)
 }
 \arguments{
 \item{.region}{The region input callback (character vector)}
@@ -29,4 +23,7 @@ A plotly object.
 }
 \description{
 Create a Choropleth Map of Obesity Rates
+}
+\examples{
+make_choropleth_plot()
 }

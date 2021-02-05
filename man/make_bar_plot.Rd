@@ -4,7 +4,13 @@
 \alias{make_bar_plot}
 \title{Create a Barplot of Country Obesity Rankings}
 \usage{
-make_bar_plot(.region, .year, .income, .sex, n = 10)
+make_bar_plot(
+  .region = NULL,
+  .year = 2016,
+  .income = NULL,
+  .sex = NULL,
+  n = 10
+)
 }
 \arguments{
 \item{.region}{The region input callback (character vector)}
@@ -22,4 +28,7 @@ A plotly object.
 }
 \description{
 Create a Barplot of Country Obesity Rankings
+}
+\examples{
+make_bar_plot()
 }
