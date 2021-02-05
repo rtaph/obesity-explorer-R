@@ -243,7 +243,7 @@ app$callback(
     input("input_income", "value"),
     input("input_sex", "value")
   ),
-  partial(make_choropleth_plot, cydict = cydict)
+  make_choropleth_plot
 )
 
 app$callback(
@@ -252,7 +252,9 @@ app$callback(
     input("input_year", "value"),
     input("input_sex", "value"),
     input("input_highlight_country", "value"),
-    input("input_year_range", "value")
+    input("input_year_range", "value"),
+    input("input_income", "value"),
+    input("input_region", "value")
   ),
   make_ts_plot
 )
@@ -293,4 +295,3 @@ if (Sys.getenv("DYNO") == "") {
 } else {
   app$run_server(host = "0.0.0.0")
 }
-
