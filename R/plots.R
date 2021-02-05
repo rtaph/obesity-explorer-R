@@ -25,7 +25,7 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
   p <- df %>%
     arrange(desc(.data$obese_rate)) %>%
     head(n) %>%
-    mutate(across(.data$country, fct_reorder, .x = .data$obese_rate)) %>%
+    mutate(across(.data$country, ~ fct_reorder(., .data$obese_rate))) %>%
     ggplot(aes(
       x = .data$obese_rate,
       y = .data$country,
@@ -87,7 +87,8 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
       "Country:", .data$country,
       "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
       "\nYear: ", .year
-    ), across(.data$obese_rate, ~ . * 100))
+    )) %>%
+    mutate(across(obese_rate, ~ . * 100))
 
   # Margin settings
   m <- list(
