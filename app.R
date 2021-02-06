@@ -180,14 +180,16 @@ app$layout(
                                 marks = as.list(set_names((a[seq(1, length(a), 5)])))
                               ),
                               htmlBr(),
-                              dbcLabel("Highlight Countries:"),
+                              dbcLabel("Highlight Countries/Regions:"),
                               dccDropdown(
                                 id = "input_highlight_country",
                                 options = map(
-                                  unique(ob$country),
+                                  c(unique(ob$country), 
+                                    unique(ob$region),
+                                    "World"),
                                   ~ list(label = ., value = .)
                                 ),
-                                value = "Canada",
+                                value = list("World", "South Asia", "Canada"),
                                 clearable = TRUE,
                                 searchable = TRUE,
                                 multi = TRUE
