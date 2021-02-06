@@ -293,6 +293,10 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
         "</sup>"
       ),
       xanchor = "center",
-      x = 0.5
-    ))
+      x = 0.5,
+      y = 40,
+      yanchor = "bottom",
+      yref = "paper"
+    ),
+    margin = list(t = 70))
 }
