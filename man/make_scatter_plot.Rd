@@ -9,7 +9,7 @@ make_scatter_plot(
   .year = NULL,
   .income = NULL,
   .sex = NULL,
-  .regressor = "smoke",
+  .regressor = "literacy",
   .grouper = "sex"
 )
 }

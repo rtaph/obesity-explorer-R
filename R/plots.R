@@ -58,7 +58,8 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       plot.title = element_text(hjust = 0.5)
     ) +
     scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p, tooltip = c("text"), height = 300)
+  ggplotly(p, tooltip = "text", height = 300) %>% 
+    layout(font = custom_css()$plotly)
 }
 
 #' Create a Choropleth Map of Obesity Rates
@@ -120,18 +121,21 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       x = 1,
       y = 0.8
     ) %>%
-    layout(margin = m, height = 300, title = list(
-      text = paste0("World Obesity (", as.character(.year), ")"),
-      y = 0.9
-    ), geo = list(
-      landcolor = "lightgray",
-      showcountries = TRUE,
-      showland = TRUE,
-      showframe = FALSE,
-      showcoastlines = FALSE,
-      projection = list(type = "geoMercator"),
-      lataxis = list(range = list(-55, 90))
-    ))
+    layout(
+      margin = m, height = 300, title = list(
+        text = paste0("World Obesity (", as.character(.year), ")"),
+        y = 0.9
+      ), geo = list(
+        landcolor = "lightgray",
+        showcountries = TRUE,
+        showland = TRUE,
+        showframe = FALSE,
+        showcoastlines = FALSE,
+        projection = list(type = "geoMercator"),
+        lataxis = list(range = list(-55, 90))
+      ),
+      font = custom_css()$plotly
+    )
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables
@@ -193,7 +197,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     scale_y_continuous(labels = scales::percent_format(1)) +
     ggthemes::scale_color_tableau() +
     theme_bw()
-  ggplotly(p, tooltip = "text")
+  ggplotly(p, tooltip = "text") %>%
+    layout(font = custom_css()$plotly)
 }
 
 #' Create a Time Series of Obesity Rates
@@ -304,6 +309,7 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
         yanchor = "bottom",
         yref = "paper"
       ),
-      margin = list(t = 70)
+      margin = list(t = 70),
+      font = custom_css()$plotly
     )
 }
