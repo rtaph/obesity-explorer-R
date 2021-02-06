@@ -15,7 +15,7 @@ It is a medical precursor to diseases such as diabetes, heart diseases, high blo
 In spite of this, most people know very little about this disease, and are unaware of the factors that increase its relative risk. 
 To increase awareness and deepen understanding, this [Obesity Dashboard](https://r-obesity-explorer.herokuapp.com/) allows users to explore obesity trends, probe associations with other variables and factors, and discover patterns related to this global epidemic.
 
-[![App](doc/img/dashboard.gif)](https://r-obesity-explorer.herokuapp.com/)
+[![App](doc/img/dashboard.gif)](https://obesity-explorer-r.herokuapp.com/)
 
 ## Contributing to the Dashboard
 
