@@ -45,7 +45,7 @@ app$layout(
                 ),
                 css$dd,
                 labelStyle = list("display" = "inline-block"),
-                inputStyle = list("margin-left" = "20px"),
+                inputStyle = css$radio_buttons,
                 value = "Both"
               ),
               htmlBr(),
@@ -106,10 +106,52 @@ app$layout(
                       dbcCard(
                         list(
                           dbcCardBody(
-                            dccGraph(
-                              id = "bar_plot",
-                              config = list("displayModeBar" = FALSE)
+                            list(
+                              dccGraph(
+                                id = "bar_plot",
+                                config = list("displayModeBar" = FALSE)
+                              ),
+                              htmlHr(),
+                              dbcRow(
+                                justify = "center",
+                                list(
+                                  dbcCol(
+                                    list(
+                                      dbcLabel("Select Number:"),
+                                      dbcInput(
+                                        id = "input_n",
+                                        type = "number",
+                                        placeholder = "number",
+                                        style = list(width = "150px"),
+                                        value = 10,
+                                        min = 5,
+                                        max = 20
+                                      )
+                                    ),
+                                    md = 3
+                                  ),
+                                  dbcCol(
+                                    list(
+                                      dbcLabel("Select Ranking:"),
+                                      dccRadioItems(
+                                        id = "input_rank",
+                                        options = list(
+                                          list(label = "Top", value = "TRUE"),
+                                          list(label = "Bottom", value = "FALSE")
+                                        ),
+                                        css$dd,
+                                        labelStyle = list("display" = "inline-block"),
+                                        inputStyle = css$radio_buttons,
+                                        value = "TRUE"
+                                      )
+                                    ), 
+                                    md = 3
+                                  )
+                                )
+                              )
+                      
                             )
+
                           )
                         )
                       )
@@ -127,7 +169,7 @@ app$layout(
                                 id = "ts_plot",
                                 config = list("displayModeBar" = FALSE)
                               ),
-                              htmlBr(),
+                              htmlHr(),
                               dbcLabel("Select Year Range:"),
                               dccRangeSlider(
                                 id = "input_year_range",
@@ -168,7 +210,7 @@ app$layout(
                                 id = "scatter_plot",
                                 config = list("displayModeBar" = FALSE)
                               ),
-                              htmlBr(),
+                              htmlHr(),
                               dbcLabel("Select Coloring Variable: "),
                               dccDropdown(
                                 id = "input_grouper",
@@ -230,7 +272,9 @@ app$callback(
     input("input_region", "value"),
     input("input_year", "value"),
     input("input_income", "value"),
-    input("input_sex", "value")
+    input("input_sex", "value"),
+    input("input_rank", "value"),
+    input("input_n", "value")
   ),
   memoise::memoize(make_bar_plot)
 )

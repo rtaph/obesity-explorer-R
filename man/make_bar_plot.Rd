@@ -9,7 +9,8 @@ make_bar_plot(
   .year = 2016,
   .income = NULL,
   .sex = NULL,
-  n = 10
+  .ascending = TRUE,
+  .n = 10
 )
 }
 \arguments{
@@ -21,7 +22,10 @@ make_bar_plot(
 
 \item{.sex}{The sex group callback (scalar character)}
 
-\item{n}{a scalar representing the number of countries to chart.}
+\item{.ascending}{a logical indicating the selection for top or bottom for
+the country rankings. Also accepts a character. Defaults to TRUE.}
+
+\item{.n}{a scalar representing the number of countries to chart.}
 }
 \value{
 A plotly object.
@@ -31,4 +35,7 @@ Create a Barplot of Country Obesity Rankings
 }
 \examples{
 make_bar_plot()
+make_bar_plot(.n = 5)
+make_bar_plot(.n = 5, .ascending = FALSE)
+make_bar_plot(.n = 5, .ascending = "FALSE")
 }

@@ -27,7 +27,7 @@ Obesity has been an increasing medical concern across the world in the
 21st century. It is a medical precursor to diseases such as diabetes, 
 heart diseases, high blood pressure and certain types of cancers.
 This dashboard allows you to explore trends, probe associations, and 
-discover other patterns related to this global epidemic
+discover other patterns related to this global epidemic.
 "
 
 smoke_txt <- "

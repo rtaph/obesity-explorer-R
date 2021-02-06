@@ -4,7 +4,10 @@
 #' @param .year The year input callback (integer vector)
 #' @param .income The income group callback (character vector)
 #' @param .sex The sex group callback (scalar character)
-#' @param n a scalar representing the number of countries to chart.
+#' @param .ascending a logical indicating the selection for top or bottom for
+#'   the country rankings. Also accepts a character. Defaults to TRUE.
+#' @param .n a scalar representing the number of countries to chart.
+#'
 #'
 #' @import ggplot2
 #' @importFrom plotly ggplotly layout
@@ -14,8 +17,13 @@
 #'
 #' @examples
 #' make_bar_plot()
+#' make_bar_plot(.n = 5)
+#' make_bar_plot(.n = 5, .ascending = FALSE)
+#' make_bar_plot(.n = 5, .ascending = "FALSE")
 make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
-                          .sex = NULL, n = 10) {
+                          .sex = NULL, .ascending = TRUE, .n = 10) {
+  .ascending <- as.logical(.ascending)
+
   # Generate a filtering string
   fltr <- list(
     region = .region, year = .year, income = .income,
@@ -25,10 +33,14 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
   # Subset and aggregate data
   df <- make_rate_data("country", fltr)
 
+  bar_plot_direction <- if_else(.ascending, "Top", "Bottom")
+
+  slicer <- ifelse(.ascending, slice_max, slice_min)
+
   # Plot
   p <- df %>%
     arrange(desc(.data$obese_rate)) %>%
-    head(n) %>%
+    slicer(.data$obese_rate, n = .n) %>%
     mutate(across(.data$country, ~ fct_reorder(., .data$obese_rate))) %>%
     ggplot(aes(
       x = .data$obese_rate,
@@ -47,8 +59,8 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       breaks = seq(0, 0.4, 0.2)
     ) +
     labs(
-      title = str_glue("Top 10 Countries ({.year})"),
-      x = "Obesity Rate(%)",
+      title = str_glue("{bar_plot_direction} {.n} Countries ({.year})"),
+      x = "Obesity Rate (%)",
       y = NULL,
       fill = "Obesity Rate"
     ) +
@@ -57,8 +69,9 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       axis.title.y = element_blank(),
       plot.title = element_text(hjust = 0.5)
     ) +
-    scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p, tooltip = "text", height = 300) %>% 
+    scale_x_continuous(labels = scales::percent_format(accuracy = 1), 
+                       limits = c(0, 0.5))
+  ggplotly(p, tooltip = "text", height = 300) %>%
     layout(font = custom_css()$plotly)
 }
 
@@ -188,9 +201,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     )) +
     geom_smooth(se = FALSE, method = "lm", formula = y ~ x, size = 0.75) +
     labs(
-      title = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
-      x = str_glue("{create_label(.regressor)}"),
-      y = "Obesity Rate",
+      x = str_glue("{create_label(.regressor)} (%)"),
+      y = "Obesity Rate (%)",
       color = create_label(.grouper)
     ) +
     scale_x_continuous(labels = scales::percent_format(1)) +
@@ -198,7 +210,18 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     ggthemes::scale_color_tableau() +
     theme_bw()
   ggplotly(p, tooltip = "text") %>%
-    layout(font = custom_css()$plotly)
+    layout(
+      title = list(
+        text = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
+        xanchor = "center",
+        x = 0.5,
+        y = 40,
+        yanchor = "bottom",
+        yref = "paper"
+      ),
+      margin = list(t = 70),
+      font = custom_css()$plotly
+    )
 }
 
 #' Create a Time Series of Obesity Rates

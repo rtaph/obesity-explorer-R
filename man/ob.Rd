@@ -9,7 +9,7 @@ A data frame with 23,138 rows and 18 variables: \describe{
 \item{country}{The country name.} \item{year}{The year of stratum.}
 \item{sex}{The sex of individuals in the stratum.} \item{iso2c}{The ISO
 2-letter country code.} \item{iso3c}{The ISO 3-letter country code.}
-\item{region}{The geogrpahic region of the country.} \item{capital}{The
+\item{region}{The geographic region of the country.} \item{capital}{The
 capital city of the country.} \item{longitude}{The longitude of the
 capital city.} \item{latitude}{The latitude of the capital city.}
 \item{income}{The name of the country income group.} \item{lending}{The
