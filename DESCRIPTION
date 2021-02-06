@@ -50,6 +50,8 @@ Suggests:
     covr,
     WDI
 Language: en-US
+URL: https://github.com/UBC-MDS/obesity-explorer-R
+BugReports: https://github.com/UBC-MDS/obesity-explorer-R/issues
 Remotes: 
     facultyai/dash-bootstrap-components@r-release
 Config/testthat/edition: 3
