@@ -145,6 +145,16 @@ custom_css <- function() {
 
   css$no_left_pad <- list("margin-left" = "0px")
 
+  # Plotly fonts
+  css$plotly <- list("family" = paste0(
+    "-apple-system,",
+    "BlinkMacSystemFont,",
+    "'Segoe UI',",
+    "Roboto,",
+    "'Helvetica Neue',",
+    "Arial"
+  ))
+
   # Return CSS
   css
 }
