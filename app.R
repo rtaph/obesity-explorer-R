@@ -232,7 +232,7 @@ app$callback(
     input("input_income", "value"),
     input("input_sex", "value")
   ),
-  make_bar_plot
+  memoise::memoize(make_bar_plot)
 )
 
 app$callback(
@@ -243,7 +243,7 @@ app$callback(
     input("input_income", "value"),
     input("input_sex", "value")
   ),
-  make_choropleth_plot
+  memoise::memoize(make_choropleth_plot)
 )
 
 app$callback(
@@ -256,7 +256,7 @@ app$callback(
     input("input_income", "value"),
     input("input_region", "value")
   ),
-  make_ts_plot
+  memoise::memoize(make_ts_plot)
 )
 
 app$callback(
@@ -269,7 +269,7 @@ app$callback(
     input("input_regressor", "value"),
     input("input_grouper", "value")
   ),
-  make_scatter_plot
+  memoise::memoize(make_scatter_plot)
 )
 
 app$callback(
@@ -283,7 +283,7 @@ app$callback(
     } else {
       text <- NULL
     }
-    return(htmlDiv(list(dccMarkdown(text, style = css$caveat))))
+    htmlDiv(list(dccMarkdown(text, style = css$caveat)))
   }
 )
 
