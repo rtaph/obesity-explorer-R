@@ -58,7 +58,8 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       plot.title = element_text(hjust = 0.5)
     ) +
     scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p, tooltip = "text", height = 300) %>% layout(font = css$plotly)
+  ggplotly(p, tooltip = "text", height = 300) %>% 
+    layout(font = custom_css()$plotly)
 }
 
 #' Create a Choropleth Map of Obesity Rates
@@ -133,7 +134,7 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
         projection = list(type = "geoMercator"),
         lataxis = list(range = list(-55, 90))
       ),
-      font = css$plotly
+      font = custom_css()$plotly
     )
 }
 
@@ -196,7 +197,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     scale_y_continuous(labels = scales::percent_format(1)) +
     ggthemes::scale_color_tableau() +
     theme_bw()
-  ggplotly(p, tooltip = "text") %>% layout(font = css$plotly)
+  ggplotly(p, tooltip = "text") %>%
+    layout(font = custom_css()$plotly)
 }
 
 #' Create a Time Series of Obesity Rates
@@ -308,6 +310,6 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
         yref = "paper"
       ),
       margin = list(t = 70),
-      font = css$plotly
+      font = custom_css()$plotly
     )
 }
