@@ -22,6 +22,8 @@
 #' make_bar_plot(.n = 5, .ascending = "FALSE")
 make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
                           .sex = NULL, .ascending = TRUE, .n = 10) {
+
+  # Coerce to logical if needed
   .ascending <- as.logical(.ascending)
 
   # Generate a filtering string
@@ -69,8 +71,10 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       axis.title.y = element_blank(),
       plot.title = element_text(hjust = 0.5)
     ) +
-    scale_x_continuous(labels = scales::percent_format(accuracy = 1), 
-                       limits = c(0, 0.5))
+    scale_x_continuous(
+      labels = scales::percent_format(accuracy = 1),
+      limits = c(0, 0.5)
+    )
   ggplotly(p, tooltip = "text", height = 300) %>%
     layout(font = custom_css()$plotly)
 }
@@ -257,19 +261,31 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
     region = .region
   )
 
-  # Subset and aggregate data
+  # Make a tooltip labeller
+  make_text <- function(country, rate, year) {
+    paste(
+      "Country:", country,
+      "\nObesity Rate: ", scales::percent(rate, 1.1),
+      "\nYear: ", year
+    )
+  }
+
+  # Subset and aggregate data (country level)
   df <- make_rate_data(c("country", "year"), fltr) %>%
-    mutate(text = paste(
-      "Country:", .data$country,
-      "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
-      "\nYear: ", .data$year
-    ))
+    mutate(text = make_text(.data$country, .data$obese_rate, .data$year))
+
+  # Subset and aggregate data (world level)
+  df_world <- make_rate_data("year", fltr) %>%
+    tibble::add_column("country" = "World")
+
+  # Subset and aggregate data (regional level)
+  df_region <- make_rate_data(c("region", "year"), fltr) %>%
+    rename(country = region)
 
   # Get data for highlighted country
-  highlight <- df %>%
+  highlight <- bind_rows(df, df_world, df_region) %>%
     filter(.data$country %in% c(.highlight_country)) %>%
     mutate(across(.data$country, factor, levels = .highlight_country))
-
 
   # Create subtitle
   sub <- paste0(
