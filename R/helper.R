@@ -180,7 +180,7 @@ custom_css <- function() {
 #'   Data}{\url{https://www.who.int/data/gho/data/indicators/indicator-details/GHO/prevalence-of-obesity-among-adults-bmi-=-30-(age-standardized-estimate)-(-)}}
 #'    \item{World Bank Indicators}{\url{https://data.worldbank.org/indicator}}
 #'   }
-#'   
+#'
 "ob"
 
 #' Dictionary of Country Names

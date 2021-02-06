@@ -124,8 +124,13 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       text = paste0("World Obesity (", as.character(.year), ")"),
       y = 0.9
     ), geo = list(
-      showframe = FALSE, showcoastlines = FALSE,
-      projection = list(type = "Mercator")
+      landcolor = "lightgray",
+      showcountries = TRUE,
+      showland = TRUE,
+      showframe = FALSE,
+      showcoastlines = FALSE,
+      projection = list(type = "geoMercator"),
+      lataxis = list(range = list(-55, 90))
     ))
 }
 
@@ -284,19 +289,21 @@ make_ts_plot <- function(.year = 2010, .sex = NULL,
     theme_bw()
 
   ggplotly(ts_plot, tooltip = "text") %>%
-    layout(title = list(
-      text = paste0(
-        "World Obesity (", sub, ")",
-        "<br>",
-        "<sup>",
-        str_glue("Year Selected: {.year}"),
-        "</sup>"
+    layout(
+      title = list(
+        text = paste0(
+          "World Obesity (", sub, ")",
+          "<br>",
+          "<sup>",
+          str_glue("Year Selected: {.year}"),
+          "</sup>"
+        ),
+        xanchor = "center",
+        x = 0.5,
+        y = 40,
+        yanchor = "bottom",
+        yref = "paper"
       ),
-      xanchor = "center",
-      x = 0.5,
-      y = 40,
-      yanchor = "bottom",
-      yref = "paper"
-    ),
-    margin = list(t = 70))
+      margin = list(t = 70)
+    )
 }
